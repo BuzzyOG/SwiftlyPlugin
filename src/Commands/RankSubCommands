@@ -1,0 +1,288 @@
+package Commands;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
+import me.Chris.SwiftlyCrafted.main;
+
+public class RankSubCommands {
+
+	main plugin;
+	private Server server;
+	
+	public RankSubCommands(main plugin){
+		this.plugin = plugin;
+	}
+	
+	public void executeNewbieCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		
+		target.setAllowFlight(false);
+		target.setOp(false);
+		target.setDisplayName(ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		target.setGameMode(GameMode.SURVIVAL);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		fc.set("rank", "newbie");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeMasterCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.YELLOW + "[Master] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "master");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeEliteMasterCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.GREEN + "[EliteMaster] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "elitemaster");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeModCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.AQUA + "[Mod] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "mod");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeElderModCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.GOLD + "[ElderMod] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "eldermod");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeAdminModCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(true);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.RED + "[Admin] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "admin");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	public void executeFounderCommand(final Player p, String[] args){
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(true);
+		target.setOp(true);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.DARK_RED + "[Creator] " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "op");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+}
