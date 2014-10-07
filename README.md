@@ -1,0 +1,5 @@
+SwiftlyPlugin
+=============
+
+Swiftly's plugin!
+
