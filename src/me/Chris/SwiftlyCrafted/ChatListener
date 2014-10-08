@@ -1,0 +1,24 @@
+package Events;
+
+import me.Chris.SwiftlyCrafted.main;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+public class PlayerChatEvent implements Listener{
+	public static main plugin;
+@EventHandler
+	public void Event(AsyncPlayerChatEvent event){
+		Player p = event.getPlayer();
+		event.setFormat("%s: %s");
+		if(event.getMessage().contains("ip") && event.getMessage().contains("join")){
+		  if(!p.isOp()) {
+		    event.setCancelled(true);
+		  	p.sendMessage(ChatColor.RED + "Please do not advertise!");
+		  }
+  	}
+	}
+}
