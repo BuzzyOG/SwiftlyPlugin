@@ -2,12 +2,10 @@ package me.Chris.SwiftlyCrafted;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
-import me.Chris.SwiftlyCrafted.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,8 +16,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Dye;
 
-public class JoinListener implements Listener{
+import me.Chris.SwiftlyCrafted.Hub.main;
+
+public class JoinListener implements Listener {
 	
 	private final main plugin;
 	 
@@ -74,7 +75,7 @@ public class JoinListener implements Listener{
             imo.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub items!");
             orange.setDurability((short) 14);
 	    orange.setItemMeta(imo);
-	    e.getPlayer().getInventory().setItem(7, orange);
+	    event.getPlayer().getInventory().setItem(7, orange);
 		mainmenu.setItemMeta(im);
 		
 		p.getInventory().clear();
@@ -260,5 +261,5 @@ public class JoinListener implements Listener{
 			}, 0, 1);
 		}
 	}
-	
+
 }
