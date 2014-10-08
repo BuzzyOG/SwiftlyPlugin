@@ -67,6 +67,14 @@ public class JoinListener implements Listener{
 	    ItemStack mainmenu = new ItemStack(Material.CHEST);
 	    ItemMeta im = mainmenu.getItemMeta();
 	    im.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu");
+	    Dye oranged = new Dye();
+            ItemStack orange = oranged.toItemStack(1);
+            oranged.setColor(DyeColor.ORANGE);
+            ItemMeta imo = orange.getItemMeta();
+            imo.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub items!");
+            orange.setDurability((short) 14);
+	    orange.setItemMeta(imo);
+	    e.getPlayer().getInventory().setItem(7, orange);
 		mainmenu.setItemMeta(im);
 		
 		p.getInventory().clear();
