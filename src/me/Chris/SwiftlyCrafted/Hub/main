@@ -1,18 +1,15 @@
 package me.Chris.SwiftlyCrafted.Hub;
 
-import java.io.File;
-import java.io.IOException;
+
+import me.Chris.SwiftlyCrafted.ChatListener;
+import me.Chris.SwiftlyCrafted.JoinListener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import Commands.RankCommand;
-import Events.JoinListener;
-import Events.PlayerChatEvent;
 
 public class main extends JavaPlugin implements Listener{
 
@@ -22,14 +19,13 @@ public class main extends JavaPlugin implements Listener{
 		//registering events (mulitple classes)
 		Bukkit.getPluginManager().registerEvents(this, this);
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new PlayerChatEvent(), this);
-		new JoinListener(this);
+		pm.registerEvents(new JoinListener(this), this);
+		pm.registerEvents(new ChatListener(this), this);
 		
 		//Commands:
 		this.getCommand("rank").setExecutor(new RankCommand(this));
 		
 		//Saving config and stuff like that
-		FileConfiguration config = getConfig();
 		saveDefaultConfig();
 		getConfig().options().copyDefaults(true);
 		this.saveConfig();
