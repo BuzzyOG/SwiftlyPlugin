@@ -25,25 +25,45 @@ public class InteractEvent implements Listener {
 	
 	
 	@EventHandler
-	public void onOpen(PlayerInteractEvent e) {
+	public void onOpen(final PlayerInteractEvent e) {
+		Dye oranged = new Dye();
+        ItemStack orange = oranged.toItemStack(1);
+        oranged.setColor(DyeColor.ORANGE);
+        ItemMeta imo = orange.getItemMeta();
+        imo.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub Items");
+        orange.setDurability((short) 14);
+	    orange.setItemMeta(imo);
 		ItemStack item = e.getItem();
-		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Waiting items!")) {
-			if(e.getPlayer().getInventory().getItem(0) == null) {
-				Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.RED + "" + ChatColor.BOLD + "         Hub Items:");
-				ItemStack fw = new ItemStack(Material.BOW);
-				ItemMeta fwim = fw.getItemMeta();
-				fwim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Helix firework bow!");
-				fw.setItemMeta(fwim);
-				itemsnone.setItem(22, fw);
-				ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
-				ItemMeta ib = bubble.getItemMeta();
-				ib.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bubble gun!");
-				ib.setLore(Arrays.asList(ChatColor.BLUE + "I like trains."));
-				bubble.setItemMeta(ib);
-				itemsnone.setItem(30, bubble);
-				e.getPlayer().openInventory(itemsnone);
+		
+		if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu")) {
+		if(e.getPlayer().getInventory().getItem(0) == null) {
+			Inventory mainMenu = Bukkit.createInventory(null, 54, ChatColor.GREEN + "" + ChatColor.BOLD + "         Main Menu:");
+			mainMenu.setItem(11, orange);
+			e.getPlayer().openInventory(mainMenu);
+				}
+			}else if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Hub Items")) {
+				e.getPlayer().closeInventory();
+				e.setCancelled(true);
+				this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+					public void run(){
+					Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.RED + "" + ChatColor.BOLD + "         Hub Items:");
+					ItemStack fw = new ItemStack(Material.BOW);
+					ItemMeta fwim = fw.getItemMeta();
+					fwim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Firework Bow!");
+					fw.setItemMeta(fwim);
+					itemsnone.setItem(22, fw);
+					ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
+					ItemMeta ib = bubble.getItemMeta();
+					ib.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bubble gun!");
+					ib.setLore(Arrays.asList(ChatColor.BLUE + "Create a long burst of bubbles!"));
+					bubble.setItemMeta(ib);
+					itemsnone.setItem(30, bubble);
+					e.getPlayer().openInventory(itemsnone);
+					e.getPlayer().updateInventory();
 			}
-			if(e.getPlayer().getInventory().getItem(0).getType().equals(Material.BOW)) {
+		}, 10L);
+	}
+			if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Firework Bow!")) {
 				Inventory itemsfw = Bukkit.createInventory(null, 54, ChatColor.RED + "" + ChatColor.BOLD + "         Hub Items:");
 				ItemStack fw = new ItemStack(Material.BOW);
 				ItemStack current = new ItemStack(Material.HOPPER);
@@ -64,8 +84,7 @@ public class InteractEvent implements Listener {
 				itemsfw.setItem(13, current);
 				e.getPlayer().openInventory(itemsfw);
 			}
-		}
 		//bubble
 	}
-	
 }
+
