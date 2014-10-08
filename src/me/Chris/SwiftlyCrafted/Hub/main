@@ -21,6 +21,7 @@ public class main extends JavaPlugin implements Listener{
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new JoinListener(this), this);
 		pm.registerEvents(new ChatListener(this), this);
+		pm.registerEvents(new InteractEvent(this), this);
 		
 		//Commands:
 		this.getCommand("rank").setExecutor(new RankCommand(this));
