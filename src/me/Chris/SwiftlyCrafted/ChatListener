@@ -8,17 +8,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class PlayerChatEvent implements Listener{
+public class ChatListener implements Listener{
 	public static main plugin;
-@EventHandler
-	public void Event(AsyncPlayerChatEvent event){
+	public ChatListener(main plugin) {
+        // Register the listener
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        
+        this.plugin = plugin;
+	}
+	@EventHandler
+		public void onEvent(AsyncPlayerChatEvent event){
 		Player p = event.getPlayer();
 		event.setFormat("%s: %s");
 		if(event.getMessage().contains("ip") && event.getMessage().contains("join")){
-		  if(!p.isOp()) {
-		    event.setCancelled(true);
-		  	p.sendMessage(ChatColor.RED + "Please do not advertise!");
-		  }
-  	}
+			if(!p.isOp()) {
+				event.setCancelled(true);
+				p.sendMessage(ChatColor.RED + "Please do not advertise!");
+		  	}
+		}
 	}
 }
