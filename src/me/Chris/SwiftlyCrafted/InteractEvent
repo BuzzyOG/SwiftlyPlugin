@@ -23,6 +23,8 @@ public class InteractEvent implements Listener {
 		
 	}
 	
+	
+	@EventHandler
 	public void onOpen(PlayerInteractEvent e) {
 		ItemStack item = e.getItem();
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Waiting items!")) {
