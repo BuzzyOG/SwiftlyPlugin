@@ -1,6 +1,6 @@
 package me.Chris.SwiftlyCrafted;
 
-import me.Chris.SwiftlyCrafted.main;
+import me.Chris.SwiftlyCrafted.Hub.main;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
