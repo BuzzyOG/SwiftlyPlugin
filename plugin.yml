@@ -1,6 +1,6 @@
 name: SwiftlyCrafted
-main: me.Chris.SwiftlyCrafted.main
-version: 1.7.9 - Alpha plugin 
+main: me.Chris.SwiftlyCrafted.Hub.main
+version: 1.7.9  
 author: SwiftlyCraftedDevs
 description: The main plugin for SwiftlyCrafted.
 
