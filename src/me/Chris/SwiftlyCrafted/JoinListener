@@ -75,12 +75,11 @@ public class JoinListener implements Listener {
             imo.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub items!");
             orange.setDurability((short) 14);
 	    orange.setItemMeta(imo);
-	    event.getPlayer().getInventory().setItem(7, orange);
 		mainmenu.setItemMeta(im);
 		
 		p.getInventory().clear();
 		p.getInventory().setItem(4, mainmenu);
-		
+	    event.getPlayer().getInventory().setItem(7, orange);
 		event.setJoinMessage(null);
 		
 		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");
@@ -98,7 +97,8 @@ public class JoinListener implements Listener {
 				p.setOp(false);
 				p.setDisplayName(ChatColor.GRAY + p.getName() + ChatColor.WHITE);
 				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
+			        @SuppressWarnings("deprecation")
+					@Override
 			        public void run() {
 			        	p.setFoodLevel(20);
 			    		p.setHealth(20);
@@ -182,7 +182,8 @@ public class JoinListener implements Listener {
 				p.setOp(false);
 				p.setDisplayName(ChatColor.RED + "[Admin] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
 				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
+			        @SuppressWarnings("deprecation")
+					@Override
 			        public void run() {
 			        	p.setFoodLevel(20);
 			    		p.setHealth(20);
@@ -225,7 +226,8 @@ public class JoinListener implements Listener {
 				p.setOp(true);
 				p.setDisplayName(ChatColor.DARK_RED + "[Creator] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
 				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
+			        @SuppressWarnings("deprecation")
+					@Override
 			        public void run() {
 			        	p.setFoodLevel(20);
 			    		p.setHealth(20);
@@ -250,7 +252,8 @@ public class JoinListener implements Listener {
 				e.printStackTrace();
 			}
 			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-		        @Override
+		        @SuppressWarnings("deprecation")
+				@Override
 		        public void run() {
 		        	p.setFoodLevel(20);
 		    		p.setHealth(20);
