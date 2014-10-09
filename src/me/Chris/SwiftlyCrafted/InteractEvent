@@ -62,26 +62,26 @@ public class InteractEvent implements Listener {
 				itemsfw.setItem(13, current);
 				e.getPlayer().openInventory(itemsfw);
 			}
-		}
-		if(e.getPlayer().getInventory().getItem(0).getType().equals(Material.DIAMOND_BARDING)) {
-			Inventory itemsbb = Bukkit.createInventory(null, 54, ChatColor.RED + "" + ChatColor.BOLD + "         Hub Items:");		
-			ItemStack fw = new ItemStack(Material.BOW);
-			ItemStack current = new ItemStack(Material.HOPPER);
-			ItemMeta currentim = current.getItemMeta();
-			ItemMeta fwim = fw.getItemMeta();
-			ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
-			ItemMeta ib = bubble.getItemMeta();
-			ib.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bubble gun!");
-			ib.setLore(Arrays.asList(ChatColor.BLUE + "I like trains."));
-			ib.addEnchant(Enchantment.ARROW_INFINITE, 5, true);
-			currentim.addEnchant(Enchantment.DIG_SPEED, 1, true);
-			fwim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Helix firework bow!");
-			currentim.setDisplayName(ChatColor.BLUE + "" + ChatColor.ITALIC + "Current item:");
-			fw.setItemMeta(fwim);
-			current.setItemMeta(currentim);
-			itemsbb.setItem(22, fw);
-			itemsbb.setItem(23, bubble);
-			itemsbb.setItem(14, current);
+			if(e.getPlayer().getInventory().getItem(0).getType().equals(Material.DIAMOND_BARDING)) {
+				Inventory itemsbb = Bukkit.createInventory(null, 54, ChatColor.RED + "" + ChatColor.BOLD + "         Hub Items:");		
+				ItemStack fw = new ItemStack(Material.BOW);
+				ItemStack current = new ItemStack(Material.HOPPER);
+				ItemMeta currentim = current.getItemMeta();
+				ItemMeta fwim = fw.getItemMeta();
+				ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
+				ItemMeta ib = bubble.getItemMeta();
+				ib.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bubble gun!");
+				ib.setLore(Arrays.asList(ChatColor.BLUE + "I like trains."));
+				ib.addEnchant(Enchantment.ARROW_INFINITE, 5, true);
+				currentim.addEnchant(Enchantment.DIG_SPEED, 1, true);
+				fwim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Helix firework bow!");
+				currentim.setDisplayName(ChatColor.BLUE + "" + ChatColor.ITALIC + "Current item:");
+				fw.setItemMeta(fwim);
+				current.setItemMeta(currentim);
+				itemsbb.setItem(22, fw);
+				itemsbb.setItem(23, bubble);
+				itemsbb.setItem(14, current);
+			}
 		}
 	}
 	
