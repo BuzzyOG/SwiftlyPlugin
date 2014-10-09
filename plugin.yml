@@ -1,0 +1,9 @@
+name: SwiftlyCrafted
+main: me.Chris.SwiftlyCrafted.main
+version: 0.0.1
+author: SwiftlyCraftedDevs
+description: The main plugin for SwiftlyCrafted.
+
+commands:
+  rank:
+    description: Creates a rank for a player.
