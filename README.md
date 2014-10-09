@@ -1,13 +1,12 @@
 SwiftlyPlugin
 =============
-
-Swiftly's plugin!
+Yep!
 Its super epic.
 
 TODO List:
 -Create hub gagdet
   -Games
-  -Options
+  -Options ; ?
   -Hubs
   -Info
 -Survival games plugin
