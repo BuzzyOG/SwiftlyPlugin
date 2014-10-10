@@ -1,7 +1,0 @@
-package Utils;
-
-public class BadWords {
-	
-	public static String Wtf = "Wtf";
-
-}
