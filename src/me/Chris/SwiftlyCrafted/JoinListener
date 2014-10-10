@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,18 +15,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Dye;
 
 import me.Chris.SwiftlyCrafted.Hub.main;
 
 public class JoinListener implements Listener {
-	
 	private final main plugin;
 	 
 	public JoinListener(main plugin) {
-        // Register the listener
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        
         this.plugin = plugin;
 	}
 	
@@ -55,37 +49,20 @@ public class JoinListener implements Listener {
 		}
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
 		
-		/*playerfile = new File(this.plugin.getDataFolder() + File.separator + "userdata" + File.separator + p.getPlayer().getName() + ".yml");
-	    if(!playerfile.exists()) {
-	        try {
-	        	playerfile.createNewFile();
-	        } catch(IOException x) {
-	            x.printStackTrace();
-	        }
-	    }
-	    fileplayer = YamlConfiguration.loadConfiguration(playerfile);*/
-	    
+		
+
 	    ItemStack mainmenu = new ItemStack(Material.CHEST);
 	    ItemMeta im = mainmenu.getItemMeta();
 	    im.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu");
-	    Dye oranged = new Dye();
-            ItemStack orange = oranged.toItemStack(1);
-            oranged.setColor(DyeColor.ORANGE);
-            ItemMeta imo = orange.getItemMeta();
-            imo.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub items!");
-            orange.setDurability((short) 14);
-	    orange.setItemMeta(imo);
 		mainmenu.setItemMeta(im);
-		
 		p.getInventory().clear();
 		p.getInventory().setItem(4, mainmenu);
-	    event.getPlayer().getInventory().setItem(7, orange);
 		event.setJoinMessage(null);
 		
 		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");
 		
 		if(p.hasPlayedBefore() == true){
-			if(fc.getString("rank").equals("newbie")){
+			if(fc.getString("rank").equalsIgnoreCase("newbie")){
 				fc.set("rank", "newbie");
 				try {
 					fc.save(playerFile);
