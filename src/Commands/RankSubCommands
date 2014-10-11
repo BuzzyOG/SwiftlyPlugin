@@ -60,6 +60,88 @@ public class RankSubCommands {
 	}
 	
 	@SuppressWarnings("deprecation")
+	public void executeMasterCommand(String s){
+		final Player target = Bukkit.getPlayerExact(s);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		
+		target.setAllowFlight(false);
+		target.setOp(false);
+		target.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Master " + target.getName() + ChatColor.WHITE);
+		target.setGameMode(GameMode.SURVIVAL);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		fc.set("rank", "master");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void executeEliteMasterCommand(String s){
+		final Player target = Bukkit.getPlayerExact(s);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		
+		target.setAllowFlight(false);
+		target.setOp(false);
+		target.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "EliteMaster " + target.getName() + ChatColor.WHITE);
+		target.setGameMode(GameMode.SURVIVAL);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		fc.set("rank", "elitemaster");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	@SuppressWarnings("deprecation")
 	public void executeModCommand(String s){
 		final Player target = Bukkit.getPlayerExact(s);
 		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
@@ -77,7 +159,7 @@ public class RankSubCommands {
 		target.setExp(0);
 		target.setLevel(1);
 		target.setFoodLevel(20);
-		target.setDisplayName(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Mod " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Mod " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		fc.set("rank", "mod");
 		try {
 			fc.save(playerFile);
@@ -97,11 +179,47 @@ public class RankSubCommands {
 		}, 0, 1);
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	public void executeElderModCommand(String s){
+		final Player target = Bukkit.getPlayerExact(s);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(false);
+		target.setOp(false);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Elder " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "eldermod");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
 	
 	@SuppressWarnings("deprecation")
 	public void executeAdminModCommand(String s){
-		Player target = Bukkit.getPlayerExact(s);
+		final Player target = Bukkit.getPlayerExact(s);
 		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
 		if(!playerFile.exists()){
 		     try {
@@ -117,8 +235,46 @@ public class RankSubCommands {
 		target.setExp(0);
 		target.setLevel(1);
 		target.setFoodLevel(20);
-		target.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Admin " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Admin " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		fc.set("rank", "admin");
+		try {
+			fc.save(playerFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
+	        @Override
+	        public void run() {
+	        	target.setFoodLevel(20);
+	    		target.setHealth(20);
+	                if(target.getLocation().getBlockY() < 0){
+	                	target.teleport(target.getWorld().getSpawnLocation());
+	                }
+	        }
+		}, 0, 1);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void executeOPCommand(String s){
+		final Player target = Bukkit.getPlayerExact(s);
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // needs try catch block
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		target.setCanPickupItems(true);
+		target.setOp(true);
+		target.setExp(0);
+		target.setLevel(1);
+		target.setFoodLevel(20);
+		target.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Owner " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		fc.set("rank", "owner");
 		try {
 			fc.save(playerFile);
 		} catch (IOException e) {
@@ -155,7 +311,7 @@ public class RankSubCommands {
 		target.setExp(0);
 		target.setLevel(1);
 		target.setFoodLevel(20);
-		target.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Dev " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Dev " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		fc.set("rank", "dev");
 		try {
 			fc.save(playerFile);
