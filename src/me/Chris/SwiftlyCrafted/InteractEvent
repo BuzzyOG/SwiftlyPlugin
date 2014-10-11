@@ -18,40 +18,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Dye;
 
-public class InteractEvent implements Listener {
+public class InteractEvent implements Listener{
 	
-	public InteractEvent(main Plugin) {
+	private final main plugin;
+	 
+	public InteractEvent(main plugin) {
+        // Register the listener
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        
+        this.plugin = plugin;
 	}
-	/*
-	 * ItemStack fw = new ItemStack(Material.BOW);
-	*	ItemMeta fwim = fw.getItemMeta();
-	*	fwim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Helix firework bow!");
-	*	fw.setItemMeta(fwim);
-	*	itemsnone.setItem(22, fw);
-	*	ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
-	*	ItemMeta ib = bubble.getItemMeta();
-	*	ib.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bubble gun!");
-	*		*	ib.setLore(Arrays.asList(ChatColor.BLUE + "I like trains."));
-	*	bubble.setItemMeta(ib);
-	*	itemsnone.setItem(30, bubble);
-	*	e.getPlayer().openInventory(itemsnone);
-	 */
-	@EventHandler
-	public void onOpen(PlayerInteractEvent e) {
-		ItemStack item = e.getItem();
-		Player player = e.getPlayer();
-		if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu")) {
-			e.setCancelled(true);
-			Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "         Main menu");
-			Dye orangedye = new Dye();
-			orangedye.setColor(DyeColor.ORANGE);
-			ItemStack odye = orangedye.toItemStack();
-			ItemMeta oim = odye.getItemMeta();
-			oim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Gadget menu");
-			odye.setItemMeta(oim);
-			main.setItem(6, odye);
-			player.openInventory(main);
+	
+
+		@EventHandler
+		public void onOpen(PlayerInteractEvent e) {
+			ItemStack item = e.getItem();
+			Player player = e.getPlayer();
+			if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu")) {
+				e.setCancelled(true);
+				Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "         Main menu");
+				Dye orangedye = new Dye();
+				orangedye.setColor(DyeColor.ORANGE);
+				ItemStack odye = orangedye.toItemStack();
+				ItemMeta oim = odye.getItemMeta();
+				oim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Gadget menu");
+				odye.setItemMeta(oim);
+				main.setItem(6, odye);
+				player.openInventory(main);
+			}
 		}
-	}
-	
 }
