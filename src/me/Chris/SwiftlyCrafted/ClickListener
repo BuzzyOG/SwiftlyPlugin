@@ -1,0 +1,25 @@
+package me.Chris.SwiftlyCrafted;
+
+import me.Chris.SwiftlyCrafted.Hub.main;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+public class ClickListener implements Listener {
+	
+	public ClickListener(main Plugin) {
+	}
+	@EventHandler
+	public void onClick(InventoryClickEvent e) {
+		Player player = (Player) e.getWhoClicked(); 
+		ItemStack item = e.getCurrentItem();
+	}
+	
+
+}
