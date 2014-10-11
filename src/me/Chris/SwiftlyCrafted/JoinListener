@@ -16,6 +16,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import Commands.RankCommand;
+import Commands.RankSubCommands;
 import me.Chris.SwiftlyCrafted.Hub.main;
 
 public class JoinListener implements Listener {
@@ -24,13 +26,14 @@ public class JoinListener implements Listener {
 	public JoinListener(main plugin) {
         this.plugin = plugin;
 	}
-	
 	//File playerFile;
 	
 	//public static FileConfiguration playerFile;
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
+		event.setJoinMessage("");
+		RankSubCommands rsc = new RankSubCommands(plugin);
 		final Player p = event.getPlayer();
 		
 		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
@@ -57,75 +60,16 @@ public class JoinListener implements Listener {
 		mainmenu.setItemMeta(im);
 		p.getInventory().clear();
 		p.getInventory().setItem(4, mainmenu);
-		event.setJoinMessage(null);
-		
-		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");
-		
-		if(p.hasPlayedBefore() == true){
-			if(fc.getString("rank").equalsIgnoreCase("newbie")){
-				fc.set("rank", "newbie");
+		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");	
+		if(p.hasPlayedBefore()) {
+			if(fc.getString("rank").equalsIgnoreCase("reg")){
+				fc.set("rank", "reg");
 				try {
 					fc.save(playerFile);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				p.setCanPickupItems(false);
-				p.setAllowFlight(false);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @SuppressWarnings("deprecation")
-					@Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
-			}else if(fc.getString("rank").equals("master")){
-				fc.set("rank", "master");
-				try {
-					fc.save(playerFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				p.setAllowFlight(false);
-				p.setCanPickupItems(false);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.YELLOW + "[Master] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);	
-			}else if(fc.getString("rank").equals("eldermaster")){
-				fc.set("rank", "eldermaster");
-				try {
-					fc.save(playerFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				p.setAllowFlight(false);
-				p.setCanPickupItems(false);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.GREEN + "[EliteMaster] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
+				rsc.executeregCommand(p.getName());
 			}else if(fc.getString("rank").equals("mod")){
 				fc.set("rank", "mod");
 				try {
@@ -133,86 +77,24 @@ public class JoinListener implements Listener {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				p.setAllowFlight(false);
-				p.setCanPickupItems(false);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.AQUA + "[Mod] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
+				rsc.executeModCommand(p.getName());
 			}else if(fc.getString("rank").equals("admin")){
 				fc.set("rank", "admin");
+					try {
+						fc.save(playerFile);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			    rsc.executeAdminModCommand(p.getName());
+			}else if(fc.getString("rank").equals("dev")){
+				fc.set("rank", "dev");
 				try {
 					fc.save(playerFile);
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					e.printStackTrace();
 				}
-				p.setAllowFlight(true);
-				p.setCanPickupItems(true);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.RED + "[Admin] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @SuppressWarnings("deprecation")
-					@Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
-			}
-			else if(fc.getString("rank").equals("eldermod")){
-				fc.set("rank", "eldermod");
-				try {
-					fc.save(playerFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				p.setAllowFlight(false);
-				p.setCanPickupItems(true);
-				p.setOp(false);
-				p.setDisplayName(ChatColor.GOLD + "[ElderMod] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
-			}else if(fc.getString("rank").equals("op")){
-				fc.set("rank", "op");
-				try {
-					fc.save(playerFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				p.setAllowFlight(true);
-				p.setCanPickupItems(true);
-				p.setOp(true);
-				p.setDisplayName(ChatColor.DARK_RED + "[Creator] " + ChatColor.GRAY + p.getName() + ChatColor.WHITE);
-				Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
-			        @SuppressWarnings("deprecation")
-					@Override
-			        public void run() {
-			        	p.setFoodLevel(20);
-			    		p.setHealth(20);
-			                if(p.getLocation().getBlockY() < 0){
-			                	p.teleport(p.getWorld().getSpawnLocation());
-			                }
-			        }
-				}, 0, 1);
+			    rsc.executeDevCommand(p.getName());
 			}
 		}else{
 			p.setAllowFlight(false);
@@ -225,7 +107,6 @@ public class JoinListener implements Listener {
 			try {
 				fc.save(playerFile);
 			} catch (IOException e) {
-				// TODO Autogenerated catch block
 				e.printStackTrace();
 			}
 			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
@@ -240,6 +121,13 @@ public class JoinListener implements Listener {
 		        }
 			}, 0, 1);
 		}
+		for(Player all : Bukkit.getOnlinePlayers()) {
+			if(p.isOp()) {
+				all.sendMessage(ChatColor.BLUE + ">> " + p.getDisplayName() + ChatColor.RED + "" + ChatColor.ITALIC + " has joined the lobby!");
+			}
+			if(fc.getString("rank").equals("mod")) {
+				all.sendMessage(ChatColor.BLUE + ">> " + p.getDisplayName() + ChatColor.RED + "" + ChatColor.ITALIC + " has joined the lobby!");
+			}
+		}
 	}
-
 }
