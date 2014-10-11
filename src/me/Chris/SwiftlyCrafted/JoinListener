@@ -60,7 +60,10 @@ public class JoinListener implements Listener {
 		mainmenu.setItemMeta(im);
 		p.getInventory().clear();
 		p.getInventory().setItem(4, mainmenu);
-		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");	
+		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");
+		p.sendMessage("");
+		p.sendMessage(ChatColor.BLUE + "This server is still in heavy beta! Please expect bugs, and do not complain if your swifties get reset.");
+		
 		if(p.hasPlayedBefore()) {
 			if(fc.getString("rank").equalsIgnoreCase("reg")){
 				fc.set("rank", "reg");
@@ -77,8 +80,33 @@ public class JoinListener implements Listener {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				rsc.executeModCommand(p.getName());
-			}else if(fc.getString("rank").equals("admin")){
+				rsc.executeModCommand(p.getName());;
+			}else if(fc.getString("rank").equals("master")){
+				fc.set("rank", "mod");
+				try {
+					fc.save(playerFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				rsc.executeMasterCommand(p.getName());;
+			}else if(fc.getString("rank").equals("elitemaster")){
+				fc.set("rank", "elitemaster");
+				try {
+					fc.save(playerFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				rsc.executeEliteMasterCommand(p.getName());;
+			}else if(fc.getString("rank").equals("eldermod")){
+				fc.set("rank", "eldermod");
+				try {
+					fc.save(playerFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		    rsc.executeElderModCommand(p.getName());
+			}
+			else if(fc.getString("rank").equals("admin")){
 				fc.set("rank", "admin");
 					try {
 						fc.save(playerFile);
@@ -86,7 +114,17 @@ public class JoinListener implements Listener {
 						e.printStackTrace();
 					}
 			    rsc.executeAdminModCommand(p.getName());
-			}else if(fc.getString("rank").equals("dev")){
+			}
+			else if(fc.getString("rank").equals("owner")){
+				fc.set("rank", "owner");
+				try {
+					fc.save(playerFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		    rsc.executeOPCommand(p.getName());
+			}
+			else if(fc.getString("rank").equals("dev")){
 				fc.set("rank", "dev");
 				try {
 					fc.save(playerFile);
@@ -103,10 +141,11 @@ public class JoinListener implements Listener {
 			p.setExp(0);
 			p.setLevel(1);
 			p.setFoodLevel(20);
-			fc.set("rank", "newbie");
+			fc.set("rank", "reg");
 			try {
 				fc.save(playerFile);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable(){
@@ -121,13 +160,6 @@ public class JoinListener implements Listener {
 		        }
 			}, 0, 1);
 		}
-		for(Player all : Bukkit.getOnlinePlayers()) {
-			if(p.isOp()) {
-				all.sendMessage(ChatColor.BLUE + ">> " + p.getDisplayName() + ChatColor.RED + "" + ChatColor.ITALIC + " has joined the lobby!");
-			}
-			if(fc.getString("rank").equals("mod")) {
-				all.sendMessage(ChatColor.BLUE + ">> " + p.getDisplayName() + ChatColor.RED + "" + ChatColor.ITALIC + " has joined the lobby!");
-			}
-		}
+		
 	}
 }
