@@ -24,6 +24,7 @@ public class RankCommand implements CommandExecutor {
 		this.plugin = passedPlugin;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
@@ -46,35 +47,37 @@ public class RankCommand implements CommandExecutor {
 			     try {
 					playerFile.createNewFile();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} // needs try catch block
+				}
 			}
-			FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
-			if(args[1].equalsIgnoreCase("newbie")){
-				rsc.executeNewbieCommand(p, args);
+			Player pl = Bukkit.getPlayerExact(args[0]);
+			String s = pl.getName();
+			if(pl != null) {
+		    if(args[1].equalsIgnoreCase("newbie")){
+				rsc.executeregCommand(s);
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " Gained rank:" + ChatColor.GRAY + " Newbie");
 			}
-			if(args[1].equalsIgnoreCase("master")){
-				rsc.executeMasterCommand(p, args);
+			else if(args[1].equalsIgnoreCase("mod")){
+				rsc.executeModCommand(s);
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " Gained rank:" + ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + " Mod");
 			}
-			if(args[1].equalsIgnoreCase("elitemaster")){
-				rsc.executeEliteMasterCommand(p, args);
+			else if(args[1].equalsIgnoreCase("admin")){
+				rsc.executeAdminModCommand(s);
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " Gained rank:" + ChatColor.GREEN + "" + ChatColor.BOLD + " Admin.");
+				}
+			else if(args[1].equalsIgnoreCase("dev")){
+				rsc.executeDevCommand(s);
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " Gained rank:" + ChatColor.RED + "" + ChatColor.BOLD + " Dev.");
 			}
-			if(args[1].equalsIgnoreCase("mod")){
-				rsc.executeModCommand(p, args);
+			else if(!args[1].equalsIgnoreCase("newbie") && !args[1].equalsIgnoreCase("mod") && !args[1].equalsIgnoreCase("admin") || !args[1].equalsIgnoreCase("dev")){
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.DARK_RED + "[Error] " + ChatColor.BLUE + args[1] + ChatColor.RED + " Is not a rank! Ranks are:");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Newbie");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Mod");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Admin");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Dev");
+					}
+				}
 			}
-			if(args[1].equalsIgnoreCase("eldermod")){
-				rsc.executeElderModCommand(p, args);
-			}
-			if(args[1].equalsIgnoreCase("admin")){
-				rsc.executeAdminModCommand(p, args);
-			}
-			if(args[1].equalsIgnoreCase("op")){
-				rsc.executeFounderCommand(p, args);
-			}
+		return true;
 		}
-		
-		return false;
-	}
-
 }
