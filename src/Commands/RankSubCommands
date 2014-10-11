@@ -76,7 +76,7 @@ public class RankSubCommands {
 		
 		target.setAllowFlight(false);
 		target.setOp(false);
-		target.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Master " + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Master " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		target.setGameMode(GameMode.SURVIVAL);
 		target.setExp(0);
 		target.setLevel(1);
@@ -117,7 +117,7 @@ public class RankSubCommands {
 		
 		target.setAllowFlight(false);
 		target.setOp(false);
-		target.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "EliteMaster " + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Elite " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		target.setGameMode(GameMode.SURVIVAL);
 		target.setExp(0);
 		target.setLevel(1);
@@ -197,7 +197,7 @@ public class RankSubCommands {
 		target.setExp(0);
 		target.setLevel(1);
 		target.setFoodLevel(20);
-		target.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Elder " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
+		target.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "ElderMod " + ChatColor.GRAY + target.getName() + ChatColor.WHITE);
 		fc.set("rank", "eldermod");
 		try {
 			fc.save(playerFile);
