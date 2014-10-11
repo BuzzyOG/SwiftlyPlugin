@@ -12,8 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ClickListener implements Listener {
-	
+	private final main plugin;
 	public ClickListener(main Plugin) {
+		this.plugin = Plugin;
 	}
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
