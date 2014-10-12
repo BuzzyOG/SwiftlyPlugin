@@ -23,6 +23,7 @@ public class main extends JavaPlugin implements Listener{
 		pm.registerEvents(new ChatListener(this), this);
 		pm.registerEvents(new InteractEvent(this), this);
 		pm.registerEvents(new ClickListener(this), this);
+		pm.registerEvents(new FallListener(this), this);
 		
 		//Commands:
 		this.getCommand("rank").setExecutor(new RankCommand(this));
