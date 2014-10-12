@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import Commands.RankSubCommands;
 public class ChatListener implements Listener{
 	public static main plugin;
 	public ChatListener(main plugin) {
@@ -25,7 +23,6 @@ public class ChatListener implements Listener{
 		  	}
 		}
 		if(event.getMessage().contains("fuck") || event.getMessage().contains("Fuck") || event.getMessage().contains("FUCK") || event.getMessage().contains("FUU") || event.getMessage().contains("FU")) {
-			event.setMessage(event.getMessage().replaceAll("(?!)fuck", "****"));
 			p.sendMessage(ChatColor.BLUE + ">>" + ChatColor.RED + " Please do not swear!");
 		}
 	}
