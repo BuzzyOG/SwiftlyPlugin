@@ -24,6 +24,7 @@ public class FallListener implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onCrunch(PlayerMoveEvent e) {
+		try {
 		if(e.getFrom().getBlockY() > e.getTo().getBlockY()) {
 		        if(!e.getTo().getBlock().getRelative(BlockFace.DOWN).isLiquid()) {
 		        		if(e.getTo().getBlock().getLocation().subtract(0, 1, 0).getBlock().getTypeId() == 100 ||
@@ -32,13 +33,16 @@ public class FallListener implements Listener {
 		        			e.getTo().getBlock().getLocation().subtract(0, 4, 0).getBlock().getTypeId() == 100) {
 		        			double randomDouble = r.nextDouble();
 		        			double result = 0.9 + (1.7 - 0.9) * randomDouble;
-		        			e.getPlayer().setVelocity(new Vector(0, 1.0 + result, 0));
+		        			e.getPlayer().setVelocity(new Vector(0, 5.0 + result, 0));
+		        			
 		        			e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CHICKEN_EGG_POP, 4, 4);
 		        			Bukkit.getServer().getPluginManager().callEvent(new HitGroundEvent(e.getPlayer()));
 		        		}
 		        }
+			  }
+		    }catch (Exception ex) {
+		    }
 		}
-	}
 	@EventHandler
 	public void onLand(EntityDamageEvent e) {
 		Player p = (Player) e.getEntity();
