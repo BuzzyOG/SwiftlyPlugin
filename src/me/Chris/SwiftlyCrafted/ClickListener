@@ -7,6 +7,7 @@ import me.Chris.SwiftlyCrafted.Hub.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Dye;
+import org.bukkit.material.Wool;
 
 public class ClickListener implements Listener {
 	private final main plugin;
@@ -25,16 +28,29 @@ public class ClickListener implements Listener {
 	public void onClick(InventoryClickEvent e) {
 		Player player = (Player) e.getWhoClicked(); 
 		ItemStack item = e.getCurrentItem();
+		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Back to main menu!")) {
+			e.setCancelled(true);
+			Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "          Main menu");
+			Dye orangedye = new Dye();
+			orangedye.setColor(DyeColor.ORANGE);
+			ItemStack odye = orangedye.toItemStack();
+			ItemMeta oim = odye.getItemMeta();
+			oim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Gadget menu");
+			odye.setItemMeta(oim);
+			main.setItem(6, odye);
+			player.openInventory(main);
+		}
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Gadget menu")) {
-			Inventory itemsnone = Bukkit.createInventory(null, 27, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget menu");
+			e.setCancelled(true);
+			Inventory itemsnone = Bukkit.createInventory(null, 45, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget menu");
 			ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
 		    ItemMeta trampim = tramp.getItemMeta();
-		    trampim.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Trampoline!");
+		    trampim.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Trampoline!" + ChatColor.RED + "" + ChatColor.BOLD + "   $10,000");
 		    trampim.setLore(Arrays.asList(ChatColor.BLUE + "Tramp-Pamp-Oline!"));
 		    tramp.setItemMeta(trampim);
 		    ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
 		    ItemMeta bubbleim = bubble.getItemMeta();
-		    bubbleim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble gun!");
+		    bubbleim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble gun! " + ChatColor.RED + "" + ChatColor.BOLD + "  $3,000");
 		    ArrayList<String> lines = new ArrayList<String>();
 		    lines.add(ChatColor.RED + "First ever gadget!");
 		    lines.add(ChatColor.BLUE + "Pew! Pew! Pew!");
@@ -44,12 +60,51 @@ public class ClickListener implements Listener {
 		    ItemMeta backim = back.getItemMeta();
 		    backim.setDisplayName(ChatColor.RED + "Back to main menu!");
 		    back.setItemMeta(backim);
-		    itemsnone.setItem(0, bubble);
-		    itemsnone.setItem(1, tramp);
-		    itemsnone.setItem(26, back);
+		    ItemStack grenade = new ItemStack(Material.CLAY_BALL, 5);
+		    ItemMeta grenadeim = grenade.getItemMeta();
+		    grenadeim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Grenades!" + ChatColor.RED + "" + ChatColor.BOLD + " Bundles of 5: $250");
+		    ArrayList<String> lore = new ArrayList<String>();
+		    lore.add(ChatColor.GOLD + "Military use only!");
+		    grenadeim.setLore(lore);
+		    grenade.setItemMeta(grenadeim);
+		    grenadeim.setLore(Arrays.asList(ChatColor.GOLD + "Military use only!"));
+		    Wool red = new Wool(DyeColor.RED);
+		    ItemStack coin = red.toItemStack(1);
+		    ItemMeta sunim = coin.getItemMeta();
+		    sunim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Coin gadgets >>>");
+		    coin.setItemMeta(sunim);
+		    Wool orange = new Wool(DyeColor.ORANGE);
+		    ItemStack ppu = orange.toItemStack(2);
+		    ItemMeta ppuim = ppu.getItemMeta();
+		    ppuim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Pay per use >>>");
+		    ppu.setItemMeta(ppuim);
+		    Wool master = new Wool(DyeColor.YELLOW);
+		    ItemStack mastero = master.toItemStack(3);
+		    ItemMeta masterim = mastero.getItemMeta();
+		    masterim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Master and up use only! >>>");
+		    mastero.setItemMeta(masterim);
+		    Wool Elitewool = new Wool(DyeColor.LIME);
+		    ItemStack elite = Elitewool.toItemStack(4);
+		    ItemMeta eliteim = elite.getItemMeta();
+		    eliteim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Elite use only! >>>");
+		    elite.setItemMeta(eliteim);
+		    Wool currentwool = new Wool(DyeColor.CYAN);
+		    ItemStack current = currentwool.toItemStack();
+		    ItemMeta currentim = current.getItemMeta();
+		    currentim.setDisplayName(ChatColor.GOLD + "" + ChatColor.ITALIC + "Current item:");
+		    current.setItemMeta(currentim);
+		    itemsnone.setItem(9, coin);
+		    itemsnone.setItem(10, bubble);
+		    itemsnone.setItem(11, tramp);
+		    itemsnone.setItem(18, ppu);
+		    itemsnone.setItem(19, grenade);
+		    itemsnone.setItem(4, back);
+		    itemsnone.setItem(36, current);
 		    player.openInventory(itemsnone);
 		}
+		if(item.getItemMeta().getDisplayName().contains("$") || item.getItemMeta().getDisplayName().contains(">")) {
+			e.setCancelled(true);
+			player.openInventory(e.getInventory());
+		}
 	}
-	
-
 }
