@@ -27,6 +27,7 @@ public class main extends JavaPlugin implements Listener{
 		
 		//Commands:
 		this.getCommand("rank").setExecutor(new RankCommand(this));
+		this.getCommand("swifty").setExecutor(new SwiftyCommand(this));
 		
 		//Saving config and stuff like that
 		saveDefaultConfig();
