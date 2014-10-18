@@ -15,23 +15,25 @@ import org.bukkit.entity.Player;
 import me.Chris.SwiftlyCrafted.Hub.main;
 
 public class SwiftieCommand implements CommandExecutor {
-	public String hub = ChatColor.BOLD + "«" + ChatColor.GREEN + "" + ChatColor.BOLD + "Swift" + ChatColor.RESET + "" + ChatColor.BOLD + "» ";
-	private main plugin;
-	public SwiftieCommand(main Plugin) {
-		this.plugin = Plugin;
+	main plugin;
+	
+	public SwiftiesCommand(main passedPlugin){
+		this.plugin = passedPlugin;
 	}
+
+	public String hub =  "«" + ChatColor.GREEN + "" + ChatColor.BOLD + "Swifty" + ChatColor.RESET + "" + "» ";
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label,String[] args) {
-		   if(cmd.getName().equalsIgnoreCase("Swifty")) {
+		   if(cmd.getName().equalsIgnoreCase("swifty")) {
 			       if(args.length < 3) {
-			    	   sender.sendMessage(hub + ChatColor.GREEN + "Not enough arguments!");
-			    	   sender.sendMessage(hub + ChatColor.RED + "Correct form: /Swifty give/set/take player amount");
+			    	   sender.sendMessage(hub + ChatColor.RED + "Not enough arguments! Correct form: /swifty <add/set/remove> <player name> <amount>");
 			       }
 			       
 			       else {
 			    	   	try { 
 			    	        Integer.parseInt(args[2]);
 			    	    } catch(NumberFormatException e) {
-			    	        sender.sendMessage(hub + ChatColor.GREEN + args[2] + ChatColor.YELLOW + " Is not a number!");
+			    	        sender.sendMessage(hub + ChatColor.RED + args[2] + ChatColor.YELLOW + " is not a number!");
 			    	        return false; 
 			    	    }
 			    	   	Player target = Bukkit.getServer().getPlayer(args[1]);
@@ -46,11 +48,11 @@ public class SwiftieCommand implements CommandExecutor {
 			    			} // needs try catch block
 			    		}
 			    		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
-			    		fc.set("Swiftys", Integer.parseInt(args[2]));
+			    		fc.set("swifties", Integer.parseInt(args[2]));
 			    		try {
 			    			fc.save(playerFile);
 			    			if(target instanceof Player) {
-			    				target.sendMessage(hub + ChatColor.BLUE + target + ChatColor.RED + " Gained their coins!");
+			    				target.sendMessage(hub + ChatColor.GRAY + target.getName() + ChatColor.RED + " gained " + ChatColor.GRAY + args[2] + ChatColor.RED + " coins!");
 			    			}
 			    		} catch (IOException e) {
 			    			// TODO Auto-generated catch block
