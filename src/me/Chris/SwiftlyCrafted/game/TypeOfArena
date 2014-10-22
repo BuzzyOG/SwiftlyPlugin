@@ -1,0 +1,9 @@
+package game;
+
+public class TypeOfArena {
+	public enum ArenaDifficulty {	
+		Hard,
+		Medium,
+		Easy;
+	}
+}
