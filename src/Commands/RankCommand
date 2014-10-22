@@ -69,19 +69,19 @@ public class RankCommand implements CommandExecutor {
 			if(pl != null) {
 		    if(args[1].equalsIgnoreCase("reg")){
 				rsc.executeregCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GRAY + " Newbie");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GRAY + " reg");
 			}
 		    else if(args[1].equalsIgnoreCase("master")){
 				rsc.executeMasterCommand(s);
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GREEN + "" + ChatColor.BOLD + " Master");
 			}
-		    else if(args[1].equalsIgnoreCase("elitemaster")){
+		    else if(args[1].equalsIgnoreCase("elite")){
 				rsc.executeEliteMasterCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " EliteMaster");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Elite");
 			}
-		    else if(args[1].equalsIgnoreCase("eldermod")){
+		    else if(args[1].equalsIgnoreCase("elder")){
 				rsc.executeElderModCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GOLD + "" + ChatColor.BOLD + " ElderMod");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GOLD + "" + ChatColor.BOLD + " Elder");
 			}
 			else if(args[1].equalsIgnoreCase("mod")){
 				rsc.executeModCommand(s);
@@ -105,12 +105,12 @@ public class RankCommand implements CommandExecutor {
 					p.sendMessage(ChatColor.WHITE + "Unknown command. Type " + "/help" + " for help.");
 				}
 			}
-			else if(!args[1].equalsIgnoreCase("newbie") || !args[1].equalsIgnoreCase("master") || !args[1].equalsIgnoreCase("elitemaster") || !args[1].equalsIgnoreCase("eldermod") || !args[1].equalsIgnoreCase("mod") || !args[1].equalsIgnoreCase("admin") || !args[1].equalsIgnoreCase("dev") || !args[1].equalsIgnoreCase("op")){
+			else if(!args[1].equalsIgnoreCase("reg") || !args[1].equalsIgnoreCase("master") || !args[1].equalsIgnoreCase("elitemaster") || !args[1].equalsIgnoreCase("eldermod") || !args[1].equalsIgnoreCase("mod") || !args[1].equalsIgnoreCase("admin") || !args[1].equalsIgnoreCase("dev") || !args[1].equalsIgnoreCase("op")){
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.DARK_RED + "[Error] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is not a rank! The current ranks are:");
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Reg");
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Master");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "EliteMaster");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "ElderMod");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Elite");
+				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Elder");
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Mod");
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Admin");
 				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Dev");
