@@ -3,7 +3,6 @@ package Commands;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,10 +13,10 @@ import org.bukkit.entity.Player;
 
 import me.Chris.SwiftlyCrafted.Hub.main;
 
-public class SwiftieCommand implements CommandExecutor {
+public class SwiftyCommand implements CommandExecutor {
 	main plugin;
 	
-	public SwiftiesCommand(main passedPlugin){
+	public SwiftyCommand(main passedPlugin){
 		this.plugin = passedPlugin;
 	}
 
@@ -25,8 +24,11 @@ public class SwiftieCommand implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label,String[] args) {
 		   if(cmd.getName().equalsIgnoreCase("swifty")) {
-			       if(args.length < 3) {
-			    	   sender.sendMessage(hub + ChatColor.RED + "Not enough arguments! Correct form: /swifty <add/set/remove> <player name> <amount>");
+			   if(!args[0].equalsIgnoreCase("get")) {
+			       if(args.length == 2 || args.length == 1 || args.length == 0 || args[0] == null) {
+			    	   if(sender instanceof Player) {
+			    	   sender.sendMessage(hub + ChatColor.RED + "Not enough arguments! Correct form: /swifty <give/set/take> <player name> <amount> OR /swifty get <player name>");
+			    	   }
 			       }
 			       
 			       else {
@@ -36,9 +38,8 @@ public class SwiftieCommand implements CommandExecutor {
 			    	        sender.sendMessage(hub + ChatColor.RED + args[2] + ChatColor.YELLOW + " is not a number!");
 			    	        return false; 
 			    	    }
-			    	   	Player target = Bukkit.getServer().getPlayer(args[1]);
 			    	   	
-			    	    File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + target + ".yml");
+			    	    File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + args[1] + ".yml");
 			    		if(!playerFile.exists()){
 			    		     try {
 			    				playerFile.createNewFile();
@@ -48,18 +49,70 @@ public class SwiftieCommand implements CommandExecutor {
 			    			} // needs try catch block
 			    		}
 			    		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
-			    		fc.set("swifties", Integer.parseInt(args[2]));
-			    		try {
-			    			fc.save(playerFile);
-			    			if(target instanceof Player) {
-			    				target.sendMessage(hub + ChatColor.GRAY + target.getName() + ChatColor.RED + " gained " + ChatColor.GRAY + args[2] + ChatColor.RED + " coins!");
-			    			}
-			    		} catch (IOException e) {
-			    			// TODO Auto-generated catch block
-			    			e.printStackTrace();
+			    		if(args[0].equalsIgnoreCase("Set")) {
+				    		fc.set("swifties", Integer.parseInt(args[2]));
+				    		try {
+				    			fc.save(playerFile);
+				    			if(sender instanceof Player) {
+				    				sender.sendMessage(hub + ChatColor.GRAY + args[1] + ChatColor.RED + "'s coins were set to " + ChatColor.GRAY + args[2] + ChatColor.RED + "!");
+				    			}
+				    		} catch (IOException e) {
+				    			// TODO Auto-generated catch block
+				    			e.printStackTrace();
+				    		}
 			    		}
+			    		else if(args[0].equalsIgnoreCase("Give")) {
+			    			fc.set("swifties", Integer.parseInt(args[2]) + fc.getInt("swifties"));
+				    		try {
+				    			fc.save(playerFile);
+				    			if(sender instanceof Player) {
+				    				sender.sendMessage(hub + ChatColor.RED + args[2] + ChatColor.GRAY + " coins were added to " + ChatColor.RED + args[1] + ChatColor.GRAY + "'s account!");
+				    			}
+				    		} catch (IOException e) {
+				    			// TODO Auto-generated catch block
+				    			e.printStackTrace();
+				    		}
+			    	   }
+			    		else if(args[0].equalsIgnoreCase("take")) {
+			    			fc.set("swifties", fc.getInt("swifties") - Integer.parseInt(args[2]));
+			    			if(fc.getInt("swifties") < 0) {
+			    				fc.set("swifties", 0);
+			    			}
+				    		try {
+				    			fc.save(playerFile);
+				    			if(sender instanceof Player) {
+				    				sender.sendMessage(hub + ChatColor.GRAY + args[2] + ChatColor.RED + " coins were taken from " + ChatColor.RED + args[1] + ChatColor.GRAY + "!");
+				    			}
+				    		} catch (IOException e) {
+				    			// TODO Auto-generated catch block
+				    			e.printStackTrace();
+				    		}
+			    		}
+			    		else {
+			    			sender.sendMessage(hub + ChatColor.RED + "Not correct arguments! Correct form: /swifty <add/set/take> <player name> <amount> OR /swifty get <player name>");
+			    		}
+			       }
 			   }
+			   else {
+				   File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + args[1] + ".yml");
+				   if(playerFile.exists()){
+		    		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		    		if(args.length <= 1) {
+		    			if(sender instanceof Player) {
+		    				sender.sendMessage(hub + ChatColor.RED + "Not enough arguments! Correct form: /swifty <add/set/take> <player name> <amount> OR /swifty get <player name>");
+		    			}
+		    		}
+		    		if(sender instanceof Player) {
+		    			sender.sendMessage(hub + ChatColor.GREEN + args[1] + ChatColor.BLUE + " has " + ChatColor.GOLD + fc.getInt("swifties") + ChatColor.BLUE + " Coins!");
+		    		}
+				   }
+				   else {
+					   if(sender instanceof Player) {
+						   sender.sendMessage(hub + ChatColor.GOLD + args[1] + " Does not have a .yml file! Create one.");
+					   }
+				   }
 		   }
-		   return false;
-		}	
+		}
+		return true;	
+	}
 }
