@@ -1,0 +1,37 @@
+package game;
+
+import java.util.ArrayList;
+
+import org.bukkit.entity.Player;
+
+import game.TypeOfArena.ArenaDifficulty;;
+
+public class Sg {
+	ArrayList<String> players = new ArrayList<String>();
+	public String name;
+	public int max;
+	public Enum<ArenaDifficulty> difficulty;
+	public Sg(String name, int max, Enum<ArenaDifficulty> difficulty) {
+		this.name = name;
+		this.max = max;
+		this.difficulty = difficulty;
+	}
+	
+	public ArrayList<String> getPlayers() {
+		return this.players;
+	}
+	
+	public void addPlayer(Player player) {
+		this.players.add(player.getName());
+	}
+	
+	public void addPlayer(String player) {
+		this.players.add(player);
+	}
+	
+	public String getDifficulty() {
+		
+		return "yo";
+		
+	}
+}
