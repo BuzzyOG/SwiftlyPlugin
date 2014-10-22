@@ -44,10 +44,10 @@ public class RankCommand implements CommandExecutor {
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFileFirst);
 		if(fc.getString("rank").equalsIgnoreCase("owner") || fc.getString("rank").equalsIgnoreCase("dev")){
 		if(args.length == 0){
-			p.sendMessage(ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Not enough arguments! Correct form of this command is: /rank <player name> <rank>");
+			p.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + "Not enough arguments! Correct form of this command is: /rank <player name> <rank>");
 		}
 		if(args.length == 1){
-			p.sendMessage(ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Not enough arguments! Correct form of this command is: /rank <player name> <rank>");
+			p.sendMessage(ChatColor.DARK_RED + "» " + ChatColor.RED + "Not enough arguments! Correct form of this command is: /rank <player name> <rank>");
 		}
 		if(args.length== 2){
 			final Player target = Bukkit.getPlayerExact(args[0]);
@@ -69,36 +69,36 @@ public class RankCommand implements CommandExecutor {
 			if(pl != null) {
 		    if(args[1].equalsIgnoreCase("reg")){
 				rsc.executeregCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GRAY + " reg");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.GRAY + " reg");
 			}
 		    else if(args[1].equalsIgnoreCase("master")){
 				rsc.executeMasterCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GREEN + "" + ChatColor.BOLD + " Master");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.GREEN + "" + ChatColor.BOLD + " Master");
 			}
 		    else if(args[1].equalsIgnoreCase("elite")){
 				rsc.executeEliteMasterCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Elite");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Elite");
 			}
 		    else if(args[1].equalsIgnoreCase("elder")){
 				rsc.executeElderModCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.GOLD + "" + ChatColor.BOLD + " Elder");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.GOLD + "" + ChatColor.BOLD + " Elder");
 			}
 			else if(args[1].equalsIgnoreCase("mod")){
 				rsc.executeModCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.AQUA + "" + ChatColor.BOLD + " Mod");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.AQUA + "" + ChatColor.BOLD + " Mod");
 			}
 			else if(args[1].equalsIgnoreCase("admin")){
 				rsc.executeAdminModCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.RED + "" + ChatColor.BOLD + " Admin");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.RED + "" + ChatColor.BOLD + " Admin");
 				}
 			else if(args[1].equalsIgnoreCase("dev")){
 				rsc.executeDevCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + " Dev");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + " Dev");
 			}
 			else if(args[1].equalsIgnoreCase("op")){
 				if(fc.getString("rank").equalsIgnoreCase("owner") || fc.getString("rank").equalsIgnoreCase("dev")){
 				rsc.executeOPCommand(s);
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_RED + "" + ChatColor.BOLD + " OP");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + s + " gained rank:" + ChatColor.DARK_RED + "" + ChatColor.BOLD + " OP");
 				}else if(fc.getString("rank").equalsIgnoreCase("admin")){
 					p.sendMessage(ChatColor.RED + "[Error] This argument is invalid for you. Only DEV's and OP's can perform this part of the command.");
 				}else{
@@ -106,15 +106,15 @@ public class RankCommand implements CommandExecutor {
 				}
 			}
 			else if(!args[1].equalsIgnoreCase("reg") || !args[1].equalsIgnoreCase("master") || !args[1].equalsIgnoreCase("elitemaster") || !args[1].equalsIgnoreCase("eldermod") || !args[1].equalsIgnoreCase("mod") || !args[1].equalsIgnoreCase("admin") || !args[1].equalsIgnoreCase("dev") || !args[1].equalsIgnoreCase("op")){
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.DARK_RED + "[Error] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is not a rank! The current ranks are:");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Reg");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Master");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Elite");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Elder");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Mod");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Admin");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "Dev");
-				sender.sendMessage(ChatColor.BLUE + ">> " + ChatColor.BLUE + "OP");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.DARK_RED + "[Error] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is not a rank! The current ranks are:");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Reg");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Master");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Elite");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Elder");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Mod");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Admin");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "Dev");
+				sender.sendMessage(ChatColor.BLUE + "» " + ChatColor.BLUE + "OP");
 					}
 				}
 			}
