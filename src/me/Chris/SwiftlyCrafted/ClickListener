@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,26 +42,29 @@ public class ClickListener implements Listener {
 		}
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Gadget Menu")) {
 			e.setCancelled(true);
-			Inventory itemsnone = Bukkit.createInventory(null, 45, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
+			Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
 			ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
 		    ItemMeta trampim = tramp.getItemMeta();
+		    ArrayList<String> lores = new ArrayList<String>();
 		    trampim.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.RED + "Not Bought");//This needs to go with config once we get it working where we click it
-		    trampim.setLore(Arrays.asList(ChatColor.WHITE + "10000" + ChatColor.GREEN + "S"));
-		    trampim.setLore(Arrays.asList(""));
-		    trampim.setLore(Arrays.asList(ChatColor.WHITE + "Jump super high into the air and see the small"));
-		    trampim.setLore(Arrays.asList(ChatColor.WHITE + "players running around like ants."));
-		    trampim.setLore(Arrays.asList(""));
-		    trampim.setLore(Arrays.asList(ChatColor.DARK_RED + "Left click " + ChatColor.WHITE + "to purchase."));
+		    trampim.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
+		    lores.add(ChatColor.BLUE + "10000" + ChatColor.GREEN + "S");
+		    lores.add(" ");
+		    lores.add(ChatColor.GREEN + "Jump super high into the air and see the small");
+		    lores.add(ChatColor.GREEN + "players running around like ants.");
+		    lores.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
+		    trampim.setLore(lores);
 		    tramp.setItemMeta(trampim);
 		    ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
 		    ItemMeta bubbleim = bubble.getItemMeta();
 		    bubbleim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble Gun! " + ChatColor.RED + "Not Bought");
 		    ArrayList<String> lines = new ArrayList<String>();
-		    lines.add(ChatColor.WHITE + "5000" + ChatColor.GREEN + "S");
+		    lines.add(ChatColor.BLUE + "5000" + ChatColor.GREEN + "S");
 		    lines.add("");
-		    lines.add(ChatColor.WHITE + "Shoot bubbles at players!");
+		    lines.add(ChatColor.AQUA + "Shoot bubbles at players!");
 		    lines.add("");
-		    lines.add(ChatColor.DARK_RED + "Left click " + ChatColor.WHITE + "to purchase.");
+		    lines.add(ChatColor.DARK_AQUA + "Pew! Pew!");
+		    lines.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
 		    bubbleim.setLore(lines);
 		    bubble.setItemMeta(bubbleim);
 		    ItemStack back = new ItemStack(Material.ARROW);
@@ -71,14 +73,13 @@ public class ClickListener implements Listener {
 		    back.setItemMeta(backim);
 		    ItemStack grenade = new ItemStack(Material.CLAY_BALL, 5);
 		    ItemMeta grenadeim = grenade.getItemMeta();
-		    grenadeim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Grenades!" + ChatColor.RED + "Not Bought");
+		    grenadeim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Grenades! " + ChatColor.RED + "Not Bought");
 		    ArrayList<String> lore = new ArrayList<String>();
-		    lore.add(ChatColor.WHITE + "250" + ChatColor.GREEN + "S" + ChatColor.WHITE + " (for 5)");
+		    lore.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
 		    lore.add("");
-		    lore.add(ChatColor.WHITE + "Throw grenades at unsuspecting enemies!");
-		    lore.add(ChatColor.WHITE + "Military use only!");
+		    lore.add(ChatColor.AQUA + "Throw grenades at unsuspecting enemies!");
 		    lore.add("");
-		    lore.add(ChatColor.DARK_RED + "Left click " + ChatColor.WHITE + "to purchase.");
+		    lore.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
 		    grenadeim.setLore(lore);
 		    grenade.setItemMeta(grenadeim);
 		    Wool red = new Wool(DyeColor.RED);
@@ -94,7 +95,7 @@ public class ClickListener implements Listener {
 		    Wool master = new Wool(DyeColor.YELLOW);
 		    ItemStack mastero = master.toItemStack(3);
 		    ItemMeta masterim = mastero.getItemMeta();
-		    masterim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Master+ Only" + ChatColor.GRAY + " >");
+		    masterim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Master and up Only" + ChatColor.GRAY + " >");
 		    mastero.setItemMeta(masterim);
 		    Wool Elitewool = new Wool(DyeColor.LIME);
 		    ItemStack elite = Elitewool.toItemStack(4);
@@ -112,10 +113,12 @@ public class ClickListener implements Listener {
 		    itemsnone.setItem(18, ppu);
 		    itemsnone.setItem(19, grenade);
 		    itemsnone.setItem(4, back);
-		    itemsnone.setItem(36, current);
+		    itemsnone.setItem(27, mastero);
+		    itemsnone.setItem(36, elite);
+		    itemsnone.setItem(48, current);
 		    player.openInventory(itemsnone);
 		}
-		if(item.getItemMeta().getDisplayName().contains("S") || item.getItemMeta().getDisplayName().contains(">")) {
+		if(item.getItemMeta().getDisplayName().contains(">") || item.getItemMeta().getDisplayName().contains(":") || item.getItemMeta().getDisplayName().contains(">")) {
 			e.setCancelled(true);
 			player.openInventory(e.getInventory());
 		}
