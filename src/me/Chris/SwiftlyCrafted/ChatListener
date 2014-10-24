@@ -22,7 +22,7 @@ public class ChatListener implements Listener{
 				p.sendMessage(ChatColor.BLUE + ">>"  + ChatColor.RED + " Please do not advertise!");
 		  	}
 		}
-		if(event.getMessage().contains("fuck") || event.getMessage().contains("Fuck") || event.getMessage().contains("FUCK") || event.getMessage().contains("FUU") || event.getMessage().contains("FU")) {
+		if(event.getMessage().contains("....") || event.getMessage().contains("...") || event.getMessage().contains("....") || event.getMessage().contains("...") || event.getMessage().contains("...")) {
 			p.sendMessage(ChatColor.BLUE + ">>" + ChatColor.RED + " Please do not swear!");
 		}
 	}
