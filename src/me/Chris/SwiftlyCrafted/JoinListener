@@ -2,7 +2,6 @@ package me.Chris.SwiftlyCrafted;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -59,7 +58,6 @@ public class JoinListener implements Listener {
 	    im.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu");
 		mainmenu.setItemMeta(im);
 		p.getInventory().setItem(4, mainmenu);
-		p.sendMessage(ChatColor.AQUA + "Welcome to SwiftlyCrafted " + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + "!");	
 		if(p.hasPlayedBefore()) {
 			if(fc.getString("rank").equalsIgnoreCase("reg")){
 				fc.set("rank", "reg");
@@ -167,6 +165,7 @@ public class JoinListener implements Listener {
 		                if(p.getLocation().getBlockY() < 0){
 		                	p.teleport(p.getWorld().getSpawnLocation());
 		                }
+		            
 		        }
 			}, 0, 1);
 			rsc.executeregCommand(event.getPlayer().getName());
