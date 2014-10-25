@@ -12,6 +12,7 @@ public class ChatListener implements Listener{
 	public ChatListener(main plugin) {
         ChatListener.plugin = plugin;
 	}
+	public String hub = ChatColor.BOLD + "«" + ChatColor.GREEN + "" + ChatColor.BOLD + "Swift" + ChatColor.RESET + "" + ChatColor.BOLD + "» ";
 	@EventHandler
 		public void onEvent(AsyncPlayerChatEvent event){
 		Player p = event.getPlayer();
@@ -22,8 +23,8 @@ public class ChatListener implements Listener{
 				p.sendMessage(ChatColor.BLUE + ">>"  + ChatColor.RED + " Please do not advertise!");
 		  	}
 		}
-		if(event.getMessage().contains("....") || event.getMessage().contains("...") || event.getMessage().contains("....") || event.getMessage().contains("...") || event.getMessage().contains("...")) {
-			p.sendMessage(ChatColor.BLUE + ">>" + ChatColor.RED + " Please do not swear!");
+		if(event.getMessage().contains("....") || event.getMessage().contains("....") || event.getMessage().contains("....") || event.getMessage().contains("...") || event.getMessage().contains("..")) {
+			p.sendMessage(hub + ChatColor.RED + " Please do not swear!");
 		}
 	}
 }
