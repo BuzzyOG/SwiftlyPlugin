@@ -7,3 +7,7 @@ description: The main plugin for SwiftlyCrafted.
 commands:
   rank:
     description: Creates a rank for a player.
+  swifty:
+    description: Swifties
+  spawn:
+    description: Yep.
