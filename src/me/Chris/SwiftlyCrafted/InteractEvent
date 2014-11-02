@@ -36,12 +36,12 @@ public class InteractEvent implements Listener{
 			Player player = e.getPlayer();
 			if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Main Menu")) {
 				e.setCancelled(true);
-				Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "         Main menu");
+				Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "         Main Menu");
 				Dye orangedye = new Dye();
 				orangedye.setColor(DyeColor.ORANGE);
 				ItemStack odye = orangedye.toItemStack();
 				ItemMeta oim = odye.getItemMeta();
-				oim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Gadget menu");
+				oim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Gadget Menu");
 				odye.setItemMeta(oim);
 				main.setItem(6, odye);
 				player.openInventory(main);
