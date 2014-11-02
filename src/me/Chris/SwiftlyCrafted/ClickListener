@@ -19,69 +19,61 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Dye;
 import org.bukkit.material.Wool;
 
-public class ClickListener implements Listener {
+
+public class ClickListener implements Listener{
+	
 	private final main plugin;
 	public ClickListener(main Plugin) {
 		this.plugin = Plugin;
 	}
+	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		Player player = (Player) e.getWhoClicked(); 
 		ItemStack item = e.getCurrentItem();
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Back to Main Menu!")) {
 			e.setCancelled(true);
-			Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "          Main menu");
+			Inventory main = Bukkit.createInventory(null, 18, ChatColor.GREEN + "" + ChatColor.BOLD + "          Main Menu");
 			Dye orangedye = new Dye();
 			orangedye.setColor(DyeColor.ORANGE);
 			ItemStack odye = orangedye.toItemStack();
 			ItemMeta oim = odye.getItemMeta();
-			oim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Gadget Menu");
+			oim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Gadget Menu");
 			odye.setItemMeta(oim);
 			main.setItem(6, odye);
 			player.openInventory(main);
 		}
-		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Gadget Menu")) {
+		if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Gadget Menu")) {
 			e.setCancelled(true);
 			Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
-			ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
-		    ItemMeta trampim = tramp.getItemMeta();
 		    ArrayList<String> lores = new ArrayList<String>();
-		    trampim.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.RED + "Not Bought");//This needs to go with config once we get it working where we click it
-		    trampim.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
-		    lores.add(ChatColor.BLUE + "10000" + ChatColor.GREEN + "S");
-		    lores.add(" ");
-		    lores.add(ChatColor.GREEN + "Jump super high into the air and see the small");
-		    lores.add(ChatColor.GREEN + "players running around like ants.");
-		    lores.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
-		    trampim.setLore(lores);
-		    tramp.setItemMeta(trampim);
-		    ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
-		    ItemMeta bubbleim = bubble.getItemMeta();
-		    bubbleim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble Gun! " + ChatColor.RED + "Not Bought");
-		    ArrayList<String> lines = new ArrayList<String>();
-		    lines.add(ChatColor.BLUE + "5000" + ChatColor.GREEN + "S");
-		    lines.add("");
-		    lines.add(ChatColor.AQUA + "Shoot bubbles at players!");
-		    lines.add("");
-		    lines.add(ChatColor.DARK_AQUA + "Pew! Pew!");
-		    lines.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
-		    bubbleim.setLore(lines);
-		    bubble.setItemMeta(bubbleim);
+		    
+		    File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+			if(!playersDir.exists()){
+			    playersDir.mkdir();
+			}
+			 
+			File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+			if(!playerFile.exists()){
+			     try {
+					playerFile.createNewFile();
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+			}
+			
+			FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+
+		    
+		    //Back to Main Menu
+		    
 		    ItemStack back = new ItemStack(Material.ARROW);
 		    ItemMeta backim = back.getItemMeta();
 		    backim.setDisplayName(ChatColor.RED + "Back to Main Menu!");
 		    back.setItemMeta(backim);
-		    ItemStack grenade = new ItemStack(Material.CLAY_BALL, 5);
-		    ItemMeta grenadeim = grenade.getItemMeta();
-		    grenadeim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Grenades! " + ChatColor.RED + "Not Bought");
-		    ArrayList<String> lore = new ArrayList<String>();
-		    lore.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
-		    lore.add("");
-		    lore.add(ChatColor.AQUA + "Throw grenades at unsuspecting enemies!");
-		    lore.add("");
-		    lore.add(ChatColor.DARK_RED + "Left click " + ChatColor.GRAY + "to purchase.");
-		    grenadeim.setLore(lore);
-		    grenade.setItemMeta(grenadeim);
+		    
+		    //Wool
+		    
 		    Wool red = new Wool(DyeColor.RED);
 		    ItemStack coin = red.toItemStack(1);
 		    ItemMeta sunim = coin.getItemMeta();
@@ -102,25 +94,317 @@ public class ClickListener implements Listener {
 		    ItemMeta eliteim = elite.getItemMeta();
 		    eliteim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Elite Only!" + ChatColor.GRAY + " >");
 		    elite.setItemMeta(eliteim);
+		    
+		    //Current Item
+		    
 		    Wool currentwool = new Wool(DyeColor.CYAN);
 		    ItemStack current = currentwool.toItemStack();
 		    ItemMeta currentim = current.getItemMeta();
 		    currentim.setDisplayName(ChatColor.GOLD + "" + ChatColor.ITALIC + "Current Item:");
 		    current.setItemMeta(currentim);
 		    itemsnone.setItem(9, coin);
-		    itemsnone.setItem(10, bubble);
-		    itemsnone.setItem(11, tramp);
+		    
+		    //not bought
+		    if(fc.getBoolean("gadgets.trampoline.bought.level1") == false || !fc.isSet("gadgets.trampoline.bought.level1")){
+		    itemsnone.setItem(37, trampNotBought());
+		    fc.set("gadgets.trampoline.bought.level1", false);
+		    try {
+				fc.save(playerFile);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+		    }
+		    if(fc.getBoolean("gadgets.bubblegun.bought.level1") == false || !fc.isSet("gadgets.bubblegun.bought.level1")){
+			    itemsnone.setItem(11, bubbleGunNotBought());
+			    fc.set("gadgets.bubblegun.bought.level1", false);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					}
+			    }
+		    if(fc.getBoolean("gadgets.grenade.bought.level1") == false || !fc.isSet("gadgets.grenade.bought.level1")){
+			    itemsnone.setItem(11, grenadeNotBought());
+			    fc.set("gadgets.grenade.bought.level1", false);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					}
+			    }
+		    
+		    //bought
+		    if(fc.getBoolean("gadgets.trampoline.bought.level1") == true){
+			    itemsnone.setItem(11, trampBought());
+			    fc.set("gadgets.trampoline.bought.level1", true);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		    }
+		    if(fc.getBoolean("gadgets.bubblegun.bought.level1") == true){
+			    itemsnone.setItem(11, bubbleGunBought());
+			    fc.set("gadgets.bubblegun.bought.level1", true);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					}
+			    }
+		    if(fc.getBoolean("gadgets.grenade.bought.level1") == true){
+			    itemsnone.setItem(11, grenadeBought());
+			    fc.set("gadgets.grenade.bought.level1", true);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					}
+			    }
+		    
 		    itemsnone.setItem(18, ppu);
-		    itemsnone.setItem(19, grenade);
 		    itemsnone.setItem(4, back);
 		    itemsnone.setItem(27, mastero);
 		    itemsnone.setItem(36, elite);
 		    itemsnone.setItem(48, current);
 		    player.openInventory(itemsnone);
 		}
+		if(item.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Not Bought")) {
+			 File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+				if(!playersDir.exists()){
+				    playersDir.mkdir();
+				}
+				 
+				File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+				if(!playerFile.exists()){
+				     try {
+						playerFile.createNewFile();
+					} catch (IOException ee) {
+						ee.printStackTrace();
+					}
+				}
+				
+				FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+				if(fc.getInt("coins") >= 10000){
+					Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
+					fc.set("gadgets.trampoline.bought.level1", true);
+					fc.set("coins", fc.getInt("coins") - 10000);
+					fc.set("gadgets.trampoline.enabled", true);
+				    
+					itemsnone.setItem(11, trampEnabledDisabled(player));
+				}else{
+					player.closeInventory();
+					player.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + "You do not have enough coins to buy " + ChatColor.GRAY + "TRAMPOLINE");
+				}
+		}if(item.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Bought")) {
+			 File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+				if(!playersDir.exists()){
+				    playersDir.mkdir();
+				}
+				 
+				File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+				if(!playerFile.exists()){
+				     try {
+						playerFile.createNewFile();
+					} catch (IOException ee) {
+						ee.printStackTrace();
+					}
+				}
+				
+				FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+			Inventory levelinven = Bukkit.createInventory(null, 54, ChatColor.GRAY + "" + ChatColor.BOLD + "Levels for: Trampoline");
+			ItemStack woodbought = new ItemStack(Material.WOOD_SWORD);
+		    ItemMeta woodboughtim = woodbought.getItemMeta();
+		    woodboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    woodboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    ArrayList<String> lores = new ArrayList<String>();
+		    woodboughtim.setLore(lores);
+		    woodbought.setItemMeta(woodboughtim);
+		    
+		    //bought
+		    
+		    ItemStack stonebought = new ItemStack(Material.STONE_SWORD);
+		    ItemMeta stoneboughtim = stonebought.getItemMeta();
+		    if(fc.getBoolean("gadget"))
+		    stoneboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    stoneboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    stonebought.setItemMeta(stoneboughtim);
+		    
+		    ItemStack ironbought = new ItemStack(Material.IRON_SWORD);
+		    ItemMeta ironboughtim = ironbought.getItemMeta();
+		    ironboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    ironboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    ironbought.setItemMeta(ironboughtim);
+		    
+		    ItemStack goldbought = new ItemStack(Material.GOLD_SWORD);
+		    ItemMeta goldboughtim = goldbought.getItemMeta();
+		    goldboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    goldboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    goldbought.setItemMeta(goldboughtim);
+		    
+		    ItemStack diamondbought = new ItemStack(Material.DIAMOND_SWORD);
+		    ItemMeta diamondboughtim = diamondbought.getItemMeta();
+		    diamondboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    diamondboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    diamondbought.setItemMeta(diamondboughtim);
+		    
+		    
+		    
+			levelinven.setItem(27, woodbought);
+		}
 		if(item.getItemMeta().getDisplayName().contains(">") || item.getItemMeta().getDisplayName().contains(":") || item.getItemMeta().getDisplayName().contains(">")) {
 			e.setCancelled(true);
 			player.openInventory(e.getInventory());
 		}
 	}
+	
+	//=========TRAMPOLINE=========//
+	
+	public ItemStack trampNotBought(){
+		ArrayList<String> lores = new ArrayList<String>();
+		ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
+	    ItemMeta trampim = tramp.getItemMeta();
+		trampim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Not Bought");//This needs to go with config once we get it working where we click it
+	    trampim.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
+	    lores.add(ChatColor.BLUE + "10000" + ChatColor.GREEN + "S");
+	    lores.add(" ");
+	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
+	    lores.add(ChatColor.WHITE + "players running around like ants.");
+	    lores.add("");
+	    lores.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
+	    trampim.setLore(lores);
+	    tramp.setItemMeta(trampim);
+		
+	    return tramp;
+	}
+	
+	public ItemStack trampBought(){
+		ArrayList<String> lores = new ArrayList<String>();
+		ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
+	    ItemMeta trampim = tramp.getItemMeta();
+	    ItemStack trampbought = new ItemStack(Material.RED_MUSHROOM);
+	    ItemMeta trampimbought = trampbought.getItemMeta();
+		trampimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Bought");//This needs to go with config once we get it working where we click it
+	    trampimbought.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
+	    lores.add(" ");
+	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
+	    lores.add(ChatColor.WHITE + "players running around like ants.");
+	    lores.add("");
+	    lores.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
+	    trampimbought.setLore(lores);
+	    trampbought.setItemMeta(trampimbought);
+	    
+		return trampbought;
+	}
+	
+	public ItemStack trampEnabledDisabled(Player p){
+		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+		if(!playersDir.exists()){
+		    playersDir.mkdir();
+		}
+		 
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + p.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+		}
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		ItemStack trampenabled = new ItemStack(Material.RED_MUSHROOM);
+	    ItemMeta trampimenabled = trampenabled.getItemMeta();
+	    trampimenabled.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Bought");//This needs to go with config once we get it working where we click it
+	    trampimenabled.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
+	    ArrayList<String> lores = new ArrayList<String>();
+	    lores.add(" ");
+	    if(fc.getBoolean("gadgets.trampoline.enabled") == false || !fc.isSet("gadgets.trampoline.enabled")){
+	    	lores.add(ChatColor.RED + "Disabled");
+	    	fc.set("gadgets.trampoline.enabled", false);
+	    }
+	    if(fc.getBoolean("gadgets.trampoline.enabled") == true){
+	    	lores.add(ChatColor.GREEN + "Enabled");
+	    }
+	    lores.add(" ");
+	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
+	    lores.add(ChatColor.WHITE + "players running around like ants.");
+	    lores.add("");
+	    lores.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
+	    trampimenabled.setLore(lores);
+	    trampenabled.setItemMeta(trampimenabled);
+	    
+	    return trampenabled;
+	}
+	
+	//=========GRENADES=========//
+	
+	public ItemStack grenadeNotBought(){
+		ItemStack grenade = new ItemStack(Material.CLAY_BALL, 5);
+	    ItemMeta grenadeim = grenade.getItemMeta();
+	    grenadeim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Grenades! " + ChatColor.GRAY + "Not Bought");
+	    ArrayList<String> lore = new ArrayList<String>();
+	    lore.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
+	    lore.add("");
+	    lore.add(ChatColor.WHITE + "Throw grenades at unsuspecting enemies!");
+	    lore.add("");
+	    lore.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
+	    grenadeim.setLore(lore);
+	    grenade.setItemMeta(grenadeim);
+	    
+	    return grenade;
+	}
+	public ItemStack grenadeBought(){
+		ItemStack grenadebought = new ItemStack(Material.CLAY_BALL, 5);
+	    ItemMeta grenadeimbought = grenadebought.getItemMeta();
+	    grenadeimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Grenades! " + ChatColor.GRAY + "Bought");
+	    ArrayList<String> lorebought = new ArrayList<String>();
+	    lorebought.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
+	    lorebought.add("");
+	    lorebought.add(ChatColor.WHITE + "Throw grenades at unsuspecting enemies!");
+	    lorebought.add("");
+	    lorebought.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "5" + ChatColor.GRAY + " more grenades.");
+	    lorebought.add(ChatColor.DARK_RED + "Right click " + ChatColor.GRAY + "to see all levels.");
+	    grenadeimbought.setLore(lorebought);
+	    grenadebought.setItemMeta(grenadeimbought);
+	    
+	    return grenadebought;
+		
+	}
+	
+	//=========BUBBLE GUN=========//
+	
+	public ItemStack bubbleGunBought(){
+		 ItemStack bubblebought = new ItemStack(Material.DIAMOND_BARDING);
+		    ItemMeta bubbleimbought = bubblebought.getItemMeta();
+		    bubbleimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble Gun! " + ChatColor.GRAY + "Bought");
+		    ArrayList<String> linesbought = new ArrayList<String>();
+		    linesbought.add("");
+		    linesbought.add(ChatColor.WHITE + "Shoot bubbles at players!");
+		    linesbought.add(ChatColor.WHITE + "Pew! Pew!");
+		    linesbought.add("");
+		    linesbought.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
+		    bubbleimbought.setLore(linesbought);
+		    bubblebought.setItemMeta(bubbleimbought);
+		    
+		    return bubblebought;
+	}
+	public ItemStack bubbleGunNotBought(){
+		ItemStack bubble = new ItemStack(Material.DIAMOND_BARDING);
+	    ItemMeta bubbleim = bubble.getItemMeta();
+	    bubbleim.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble Gun! " + ChatColor.GRAY + "Not Bought");
+	    ArrayList<String> lines = new ArrayList<String>();
+	    lines.add(ChatColor.BLUE + "5000" + ChatColor.GREEN + "S");
+	    lines.add("");
+	    lines.add(ChatColor.WHITE + "Shoot bubbles at players!");
+	    lines.add(ChatColor.WHITE + "Pew! Pew!");
+	    lines.add("");
+	    lines.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
+	    lines.add(ChatColor.DARK_AQUA + "Right click " + ChatColor.GRAY + "to see all levels.");
+	    bubbleim.setLore(lines);
+	    bubble.setItemMeta(bubbleim);
+	    
+	    return bubble;
+	}
 }
+
+
