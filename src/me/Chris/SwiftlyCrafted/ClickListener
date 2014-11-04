@@ -27,9 +27,24 @@ public class ClickListener implements Listener{
 		this.plugin = Plugin;
 	}
 	
-	@EventHandler
+@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		Player player = (Player) e.getWhoClicked(); 
+		  File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+			if(!playersDir.exists()){
+			    playersDir.mkdir();
+			}
+			 
+			File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+			if(!playerFile.exists()){
+			     try {
+					playerFile.createNewFile();
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+			}
+			FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+			Inventory levelinven = Bukkit.createInventory(null, 54, ChatColor.GRAY + "" + ChatColor.BOLD + "Levels for: Trampoline");
 		ItemStack item = e.getCurrentItem();
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Back to Main Menu!")) {
 			e.setCancelled(true);
@@ -47,23 +62,6 @@ public class ClickListener implements Listener{
 			e.setCancelled(true);
 			Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
 		    ArrayList<String> lores = new ArrayList<String>();
-		    
-		    File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
-			if(!playersDir.exists()){
-			    playersDir.mkdir();
-			}
-			 
-			File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
-			if(!playerFile.exists()){
-			     try {
-					playerFile.createNewFile();
-				} catch (IOException ee) {
-					ee.printStackTrace();
-				}
-			}
-			
-			FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
-
 		    
 		    //Back to Main Menu
 		    
@@ -115,7 +113,7 @@ public class ClickListener implements Listener{
 				}
 		    }
 		    if(fc.getBoolean("gadgets.bubblegun.bought.level1") == false || !fc.isSet("gadgets.bubblegun.bought.level1")){
-			    itemsnone.setItem(11, bubbleGunNotBought());
+			    itemsnone.setItem(10, bubbleGunNotBought());
 			    fc.set("gadgets.bubblegun.bought.level1", false);
 			    try {
 					fc.save(playerFile);
@@ -135,7 +133,7 @@ public class ClickListener implements Listener{
 		    
 		    //bought
 		    if(fc.getBoolean("gadgets.trampoline.bought.level1") == true){
-			    itemsnone.setItem(11, trampBought());
+			    itemsnone.setItem(37, trampEnabledDisabled(player));
 			    fc.set("gadgets.trampoline.bought.level1", true);
 			    try {
 					fc.save(playerFile);
@@ -144,7 +142,7 @@ public class ClickListener implements Listener{
 				}
 		    }
 		    if(fc.getBoolean("gadgets.bubblegun.bought.level1") == true){
-			    itemsnone.setItem(11, bubbleGunBought());
+			    itemsnone.setItem(10, bubbleGunBought());
 			    fc.set("gadgets.bubblegun.bought.level1", true);
 			    try {
 					fc.save(playerFile);
@@ -170,87 +168,91 @@ public class ClickListener implements Listener{
 		    player.openInventory(itemsnone);
 		}
 		if(item.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Not Bought")) {
-			 File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
-				if(!playersDir.exists()){
-				    playersDir.mkdir();
-				}
-				 
-				File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
-				if(!playerFile.exists()){
-				     try {
-						playerFile.createNewFile();
-					} catch (IOException ee) {
-						ee.printStackTrace();
-					}
-				}
 				
-				FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
 				if(fc.getInt("coins") >= 10000){
 					Inventory itemsnone = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Gadget Menu");
+					Inventory areyousure = Bukkit.createInventory(null, 54, ChatColor.GOLD + "" + ChatColor.BOLD + "          Are You Sure?");
+					
+					
+
 					fc.set("gadgets.trampoline.bought.level1", true);
 					fc.set("coins", fc.getInt("coins") - 10000);
 					fc.set("gadgets.trampoline.enabled", true);
-				    
-					itemsnone.setItem(11, trampEnabledDisabled(player));
+					
+					try {
+						fc.save(playerFile);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						}
+				    player.closeInventory();
+					itemsnone.setItem(37, trampEnabledDisabled(player));
+					player.openInventory(itemsnone);
 				}else{
 					player.closeInventory();
-					player.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + "You do not have enough coins to buy " + ChatColor.GRAY + "TRAMPOLINE");
+					player.sendMessage(ChatColor.BLUE + "» " + ChatColor.RED + "You do not have enough swifties to buy " + ChatColor.GRAY + "TRAMPOLINE");
 				}
 		}if(item.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Bought")) {
-			 File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
-				if(!playersDir.exists()){
-				    playersDir.mkdir();
-				}
-				 
-				File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
-				if(!playerFile.exists()){
-				     try {
-						playerFile.createNewFile();
-					} catch (IOException ee) {
-						ee.printStackTrace();
-					}
-				}
-				
-				FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
-			Inventory levelinven = Bukkit.createInventory(null, 54, ChatColor.GRAY + "" + ChatColor.BOLD + "Levels for: Trampoline");
-			ItemStack woodbought = new ItemStack(Material.WOOD_SWORD);
-		    ItemMeta woodboughtim = woodbought.getItemMeta();
-		    woodboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
-		    woodboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
-		    ArrayList<String> lores = new ArrayList<String>();
-		    woodboughtim.setLore(lores);
-		    woodbought.setItemMeta(woodboughtim);
 		    
 		    //bought
 		    
-		    ItemStack stonebought = new ItemStack(Material.STONE_SWORD);
-		    ItemMeta stoneboughtim = stonebought.getItemMeta();
-		    if(fc.getBoolean("gadget"))
-		    stoneboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
-		    stoneboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
-		    stonebought.setItemMeta(stoneboughtim);
+		    Wool red = new Wool(DyeColor.RED);
+		    ItemStack enable = red.toItemStack(1);
+		    ItemMeta sunim = enable.getItemMeta();
+		    sunim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Click to Enable");
+		    enable.setItemMeta(sunim);
 		    
-		    ItemStack ironbought = new ItemStack(Material.IRON_SWORD);
-		    ItemMeta ironboughtim = ironbought.getItemMeta();
-		    ironboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
-		    ironboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
-		    ironbought.setItemMeta(ironboughtim);
+		    Wool green = new Wool(DyeColor.GREEN);
+		    ItemStack disable = green.toItemStack(1);
+		    ItemMeta greenim = disable.getItemMeta();
+		    greenim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Click to Disable");
+		    disable.setItemMeta(greenim);
 		    
-		    ItemStack goldbought = new ItemStack(Material.GOLD_SWORD);
-		    ItemMeta goldboughtim = goldbought.getItemMeta();
-		    goldboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
-		    goldboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
-		    goldbought.setItemMeta(goldboughtim);
+		    if(fc.getBoolean("gadgets.trampoline.enabled") == true){
+		    	levelinven.setItem(13, disable);
+		    }
+		    if(fc.getBoolean("gadgets.trampoline.enabled") == false){
+		    	levelinven.setItem(13, enable);
+		    }
 		    
-		    ItemStack diamondbought = new ItemStack(Material.DIAMOND_SWORD);
-		    ItemMeta diamondboughtim = diamondbought.getItemMeta();
-		    diamondboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
-		    diamondboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
-		    diamondbought.setItemMeta(diamondboughtim);
+			levelinven.setItem(29, levelOne(player));
+			levelinven.setItem(30, levelTwo(player));
+			levelinven.setItem(31, levelThree(player));
+			levelinven.setItem(32, levelFour(player));
+			levelinven.setItem(33, levelFive(player));
+			player.openInventory(levelinven);
+		}if(item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Click to Disable")) {
+			Wool red = new Wool(DyeColor.RED);
+		    ItemStack enable = red.toItemStack(1);
+		    ItemMeta enableim = enable.getItemMeta();
+		    enableim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Click to Enable");
+		    enable.setItemMeta(enableim);
 		    
+		    fc.set("gadgets.trampoline.enabled", false);
+			try {
+				fc.save(playerFile);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			levelinven.setItem(13, enable);
+
+		}if(item.getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Click to Enable")) {
+			player.sendMessage("hi");
+			Wool green = new Wool(DyeColor.GREEN);
+		    ItemStack disable = green.toItemStack(1);
+		    ItemMeta greenim = disable.getItemMeta();
+		    greenim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Click to Disable");
+		    disable.setItemMeta(greenim);
 		    
-		    
-			levelinven.setItem(27, woodbought);
+			fc.set("gadgets.trampoline.enabled", true);
+			try {
+				fc.save(playerFile);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			levelinven.setItem(13, disable);
+			
 		}
 		if(item.getItemMeta().getDisplayName().contains(">") || item.getItemMeta().getDisplayName().contains(":") || item.getItemMeta().getDisplayName().contains(">")) {
 			e.setCancelled(true);
@@ -268,33 +270,14 @@ public class ClickListener implements Listener{
 	    trampim.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
 	    lores.add(ChatColor.BLUE + "10000" + ChatColor.GREEN + "S");
 	    lores.add(" ");
-	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
-	    lores.add(ChatColor.WHITE + "players running around like ants.");
+	    lores.add(ChatColor.GRAY + "Jump super high into the air and see the small");
+	    lores.add(ChatColor.GRAY + "players running around like ants.");
 	    lores.add("");
 	    lores.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
 	    trampim.setLore(lores);
 	    tramp.setItemMeta(trampim);
 		
 	    return tramp;
-	}
-	
-	public ItemStack trampBought(){
-		ArrayList<String> lores = new ArrayList<String>();
-		ItemStack tramp = new ItemStack(Material.RED_MUSHROOM);
-	    ItemMeta trampim = tramp.getItemMeta();
-	    ItemStack trampbought = new ItemStack(Material.RED_MUSHROOM);
-	    ItemMeta trampimbought = trampbought.getItemMeta();
-		trampimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Trampoline! " + ChatColor.GRAY + "Bought");//This needs to go with config once we get it working where we click it
-	    trampimbought.setLore(Arrays.asList(ChatColor.WHITE + "10,000" + ChatColor.GREEN + "S"));
-	    lores.add(" ");
-	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
-	    lores.add(ChatColor.WHITE + "players running around like ants.");
-	    lores.add("");
-	    lores.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
-	    trampimbought.setLore(lores);
-	    trampbought.setItemMeta(trampimbought);
-	    
-		return trampbought;
 	}
 	
 	public ItemStack trampEnabledDisabled(Player p){
@@ -321,13 +304,18 @@ public class ClickListener implements Listener{
 	    if(fc.getBoolean("gadgets.trampoline.enabled") == false || !fc.isSet("gadgets.trampoline.enabled")){
 	    	lores.add(ChatColor.RED + "Disabled");
 	    	fc.set("gadgets.trampoline.enabled", false);
+	    	try {
+				fc.save(playerFile);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
 	    }
 	    if(fc.getBoolean("gadgets.trampoline.enabled") == true){
 	    	lores.add(ChatColor.GREEN + "Enabled");
 	    }
 	    lores.add(" ");
-	    lores.add(ChatColor.WHITE + "Jump super high into the air and see the small");
-	    lores.add(ChatColor.WHITE + "players running around like ants.");
+	    lores.add(ChatColor.GRAY + "Jump super high into the air and see the small");
+	    lores.add(ChatColor.GRAY + "players running around like ants.");
 	    lores.add("");
 	    lores.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
 	    trampimenabled.setLore(lores);
@@ -345,7 +333,7 @@ public class ClickListener implements Listener{
 	    ArrayList<String> lore = new ArrayList<String>();
 	    lore.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
 	    lore.add("");
-	    lore.add(ChatColor.WHITE + "Throw grenades at unsuspecting enemies!");
+	    lore.add(ChatColor.GRAY + "Throw grenades at unsuspecting enemies!");
 	    lore.add("");
 	    lore.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
 	    grenadeim.setLore(lore);
@@ -358,11 +346,10 @@ public class ClickListener implements Listener{
 	    ItemMeta grenadeimbought = grenadebought.getItemMeta();
 	    grenadeimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Grenades! " + ChatColor.GRAY + "Bought");
 	    ArrayList<String> lorebought = new ArrayList<String>();
-	    lorebought.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.RED + " *For 5*");
+	    lorebought.add(ChatColor.BLUE + "250" + ChatColor.GREEN + "S" + ChatColor.GRAY + " *For 5*");
 	    lorebought.add("");
-	    lorebought.add(ChatColor.WHITE + "Throw grenades at unsuspecting enemies!");
+	    lorebought.add(ChatColor.GRAY + "Throw grenades at unsuspecting enemies!");
 	    lorebought.add("");
-	    lorebought.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "5" + ChatColor.GRAY + " more grenades.");
 	    lorebought.add(ChatColor.DARK_RED + "Right click " + ChatColor.GRAY + "to see all levels.");
 	    grenadeimbought.setLore(lorebought);
 	    grenadebought.setItemMeta(grenadeimbought);
@@ -379,8 +366,8 @@ public class ClickListener implements Listener{
 		    bubbleimbought.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Bubble Gun! " + ChatColor.GRAY + "Bought");
 		    ArrayList<String> linesbought = new ArrayList<String>();
 		    linesbought.add("");
-		    linesbought.add(ChatColor.WHITE + "Shoot bubbles at players!");
-		    linesbought.add(ChatColor.WHITE + "Pew! Pew!");
+		    linesbought.add(ChatColor.GRAY + "Shoot bubbles at players!");
+		    linesbought.add(ChatColor.GRAY + "Pew! Pew!");
 		    linesbought.add("");
 		    linesbought.add(ChatColor.DARK_AQUA + "Right/Left click " + ChatColor.GRAY + "to see all levels.");
 		    bubbleimbought.setLore(linesbought);
@@ -395,15 +382,171 @@ public class ClickListener implements Listener{
 	    ArrayList<String> lines = new ArrayList<String>();
 	    lines.add(ChatColor.BLUE + "5000" + ChatColor.GREEN + "S");
 	    lines.add("");
-	    lines.add(ChatColor.WHITE + "Shoot bubbles at players!");
-	    lines.add(ChatColor.WHITE + "Pew! Pew!");
+	    lines.add(ChatColor.GRAY + "Shoot bubbles at players!");
+	    lines.add(ChatColor.GRAY + "Pew! Pew!");
 	    lines.add("");
 	    lines.add(ChatColor.DARK_AQUA + "Left click " + ChatColor.GRAY + "to purchase " + ChatColor.DARK_AQUA + "LEVEL 1" + ChatColor.GRAY + ".");
-	    lines.add(ChatColor.DARK_AQUA + "Right click " + ChatColor.GRAY + "to see all levels.");
 	    bubbleim.setLore(lines);
 	    bubble.setItemMeta(bubbleim);
 	    
 	    return bubble;
+	}
+	
+	//=======LEVELS======//
+	public ItemStack levelOne(Player player){
+		ItemStack woodbought = new ItemStack(Material.WOOD_SWORD);
+	    ItemMeta woodboughtim = woodbought.getItemMeta();
+	    woodboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+	    woodboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+	    ArrayList<String> lores = new ArrayList<String>();
+	    woodboughtim.setLore(lores);
+	    woodbought.setItemMeta(woodboughtim);
+	    
+	    return woodbought;
+	}
+	public ItemStack levelTwo(Player player){
+		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+		if(!playersDir.exists()){
+		    playersDir.mkdir();
+		}
+		 
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		
+		ItemStack stonebought = new ItemStack(Material.STONE_SWORD);
+	    ItemMeta stoneboughtim = stonebought.getItemMeta();
+	    if(fc.getBoolean("gadgets.trampoline.bought.level2") == true){
+	    stoneboughtim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+	    stoneboughtim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+	    stonebought.setItemMeta(stoneboughtim);
+	    }if(fc.getBoolean("gadgets.trampoline.bought.level2") == false || !fc.isSet("gadgets.trampoline.bought.level2")){
+	    stoneboughtim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Not Bought: LEVEL 2!");
+	    fc.set("gadgets.trampoline.bought.level2", false);
+	    try {
+			fc.save(playerFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			}
+	    stonebought.setItemMeta(stoneboughtim);
+	    }
+	    
+	    return stonebought;
+	}
+	public ItemStack levelThree(Player player){
+		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+		if(!playersDir.exists()){
+		    playersDir.mkdir();
+		}
+		 
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		
+		ItemStack ironsword = new ItemStack(Material.IRON_SWORD);
+	    ItemMeta ironswordim = ironsword.getItemMeta();
+	    if(fc.getBoolean("gadgets.trampoline.bought.level3") == true){
+	    ironswordim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+	    ironswordim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+	    ironsword.setItemMeta(ironswordim);
+	    }if(fc.getBoolean("gadgets.trampoline.bought.level3") == false || !fc.isSet("gadgets.trampoline.bought.level3")){
+	    ironswordim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Not Bought: LEVEL 3!");
+	    fc.set("gadgets.trampoline.bought.level3", false);
+	    try {
+			fc.save(playerFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			}
+	    ironsword.setItemMeta(ironswordim);
+	    }
+	    
+	    return ironsword;
+	}
+	public ItemStack levelFour(Player player){
+		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+		if(!playersDir.exists()){
+		    playersDir.mkdir();
+		}
+		 
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		
+		 ItemStack goldsword = new ItemStack(Material.GOLD_SWORD);
+		    ItemMeta goldswordim = goldsword.getItemMeta();
+		    if(fc.getBoolean("gadgets.trampoline.bought.level4") == true){
+		    goldswordim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    goldswordim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    goldsword.setItemMeta(goldswordim);
+		    }if(fc.getBoolean("gadgets.trampoline.bought.level4") == false || !fc.isSet("gadgets.trampoline.bought.level4")){
+		    goldswordim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Not Bought: LEVEL 4!");
+		    fc.set("gadgets.trampoline.bought.level4", false);
+		    try {
+				fc.save(playerFile);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+		    goldsword.setItemMeta(goldswordim);
+		    }
+		    
+		    return goldsword;
+	}
+	public ItemStack levelFive(Player player){
+		File playersDir = new File(this.plugin.getDataFolder() + File.separator + "players");
+		if(!playersDir.exists()){
+		    playersDir.mkdir();
+		}
+		 
+		File playerFile = new File(this.plugin.getDataFolder() + File.separator + "players" + File.separator + player.getName() + ".yml");
+		if(!playerFile.exists()){
+		     try {
+				playerFile.createNewFile();
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(playerFile);
+		
+		 ItemStack diamondsword = new ItemStack(Material.DIAMOND_SWORD);
+		    ItemMeta diamondswordim = diamondsword.getItemMeta();
+		    if(fc.getBoolean("gadgets.trampoline.bought.level5") == true){
+		    	diamondswordim.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+		    	diamondswordim.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Bought!");//This needs to go with config once we get it working where we click it
+		    	diamondsword.setItemMeta(diamondswordim);
+		    }if(fc.getBoolean("gadgets.trampoline.bought.level5") == false || !fc.isSet("gadgets.trampoline.bought.level5")){
+		    	diamondswordim.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Not Bought: LEVEL 5!");
+		    	fc.set("gadgets.trampoline.bought.level5", false);
+			    try {
+					fc.save(playerFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					}
+		    	diamondsword.setItemMeta(diamondswordim);
+		    }
+		    
+		    return diamondsword;
 	}
 }
 
