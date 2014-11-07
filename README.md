@@ -1,16 +1,9 @@
-SwiftlyPlugin
+SwiftlyPlugin (Private)
 =============
-Yep!
-Its super epic.
-
-TODO List:
--Create hub gagdet
-  -Games
-  -Options ; ?
-  -Hubs
-  -Info
--Survival games plugin
-  -Lobby
-  -Starting game
-  -Chest filler
+This plugin is almost the offical swiftlycraft server plugin, If it is not outdated.
+You CANNOT copy this code.
+You CANNOT share this link with others, hint hint mazen.
+-The awesomest plugin in the world.
+Use of @Darkbladee12 's ParticleEffect lib.
+Thanks for reading.
   
