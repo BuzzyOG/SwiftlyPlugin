@@ -12,6 +12,6 @@ The bones of this plugin is here, not any private data.
 - SQL Data will be shown as **.
 -The awesomest plugin in the world.
 
-This plugin uses @Darkbladee12 's ParticleEffect lib.
+This plugin uses @DarkBlade12 's ParticleEffect lib.
 
 Thanks for reading!
