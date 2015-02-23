@@ -6,6 +6,10 @@ The bones of this plugin is here, not any private data.
 ```  
   Chip: "I wish I would've bought github plus for privacy :/"
 ```
+  ```  
+  Chip: "FREE FOR ALL! Pull requests are now open to do anything and everything, hows that, eh?"
+```
+  
 
 - You CANNOT copy this code.
 - You CANNOT share this link with others, hint hint mazen.
